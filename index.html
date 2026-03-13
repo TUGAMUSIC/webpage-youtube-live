@@ -25,47 +25,52 @@
 
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <script>
-    // Esto asegura que todo (incluyendo la librería Plyr) esté cargado
-    window.onload = function() {
-        
-        async function initStream() {
-            try {
-                // Verificamos si Plyr cargó correctamente
-                if (typeof Plyr === 'undefined') {
-                    console.error("La librería Plyr no se pudo cargar desde el CDN.");
-                    return;
-                }
+    // 1. Definimos la función de carga
+    async function cargarTransmision() {
+        try {
+            // Buscamos el config.json
+            const respuesta = await fetch('config.json?v=' + Date.now());
+            if (!respuesta.ok) return;
+            
+            const datos = await respuesta.json();
+            const vidId = datos.youtubeId;
 
-                const response = await fetch('config.json?t=' + new Date().getTime());
-                if (!response.ok) throw new Error("No se pudo cargar config.json");
-                
-                const data = await response.json();
-                const videoId = data.youtubeId;
-
-                if (!videoId) return;
-
-                // Inicializamos el reproductor
-                const player = new Plyr('#player', {
-                    youtube: { noCookie: true, rel: 0, showinfo: 0 }
-                });
-
-                player.source = {
-                    type: 'video',
-                    sources: [{ src: videoId, provider: 'youtube' }],
-                };
-
-                // Actualizar anuncios
-                if (data.anuncioUrl) document.getElementById('ad-img').src = data.anuncioUrl;
-                if (data.anuncioLink) document.getElementById('ad-link').href = data.anuncioLink;
-
-            } catch (error) {
-                console.error("Error en la carga:", error);
+            if (!vidId || vidId === "") {
+                console.error("No hay ID en el JSON");
+                return;
             }
-        }
 
-        initStream();
-    };
+            // 2. BUSCAMOS EL ELEMENTO Y LE PONEMOS EL ID A MANO
+            const el = document.getElementById('player');
+            el.setAttribute('data-plyr-embed-id', vidId);
+
+            // 3. RECIÉN AQUÍ INICIALIZAMOS PLYR
+            const player = new Plyr('#player', {
+                youtube: {
+                    noCookie: true,
+                    rel: 0,
+                    showinfo: 0,
+                    autoplay: false // Para evitar bloqueos del navegador
+                }
+            });
+
+            // 4. Actualizar anuncios si existen
+            if (datos.anuncioUrl) document.getElementById('ad-img').src = datos.anuncioUrl;
+            if (datos.anuncioLink) document.getElementById('ad-link').parentElement.href = datos.anuncioLink;
+
+        } catch (e) {
+            console.error("Fallo total:", e);
+        }
+    }
+
+    // Ejecutamos cuando el DOM esté listo
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', cargarTransmision);
+    } else {
+        cargarTransmision();
+    }
 </script>
 </body>
 </html>
