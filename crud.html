@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Control - Stream</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-100 min-h-screen p-8">
+
+    <div class="max-w-md mx-auto bg-white rounded-2xl shadow-xl p-8">
+        <h2 class="text-2xl font-black text-zinc-800 mb-6">Configuración de Transmisión</h2>
+        
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-zinc-700 mb-1">YouTube Video ID</label>
+                <input type="text" id="liveId" placeholder="Ej: 5qap5aO4i9A" 
+                    class="w-full p-3 border border-zinc-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition">
+                <p class="text-xs text-zinc-500 mt-2">Copia el código que aparece después de "v=" en la URL de YouTube.</p>
+            </div>
+
+            <button onclick="updateStream()" 
+                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition shadow-lg active:scale-95">
+                Actualizar Transmisión
+            </button>
+        </div>
+
+        <div class="mt-8 pt-6 border-t border-zinc-200">
+            <h3 class="text-sm font-bold text-zinc-400 uppercase tracking-widest">Estado Actual</h3>
+            <div id="status" class="mt-2 text-zinc-600 italic">Cargando...</div>
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById('liveId');
+        const status = document.getElementById('status');
+
+        // Mostrar ID actual
+        const currentId = localStorage.getItem('youtube_live_id') || 'dQw4w9WgXcQ';
+        input.value = currentId;
+        status.innerText = `ID actual: ${currentId}`;
+
+        function updateStream() {
+            const newId = input.value.trim();
+            if (newId) {
+                localStorage.setItem('youtube_live_id', newId);
+                status.innerText = `Actualizado a: ${newId}`;
+                alert('¡Transmisión actualizada con éxito!');
+            }
+        }
+    </script>
+</body>
+</html>
