@@ -2,75 +2,63 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>TugaStream Player</title>
+    <title>TugaStream</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 </head>
-<body class="bg-zinc-900 text-white min-h-screen">
+<body class="bg-black text-white">
 
-    <main class="container mx-auto p-4 flex flex-col lg:flex-row gap-6">
-        <div class="flex-1">
-            <div class="rounded-xl overflow-hidden shadow-2xl">
-                <div id="player" data-plyr-provider="youtube" data-plyr-embed-id=""></div>
-            </div>
+    <div class="container mx-auto p-4">
+        <div class="plyr__video-embed" id="player">
+            <iframe
+                id="main-iframe"
+                src="about:blank" 
+                allowfullscreen
+                allowtransparency
+                allow="autoplay"
+            ></iframe>
         </div>
 
-        <aside class="w-full lg:w-80">
+        <div class="mt-4 p-4 bg-zinc-900 rounded border border-zinc-800 flex justify-center">
             <a id="ad-link" href="#" target="_blank">
-                <img id="ad-img" src="" class="w-full rounded-lg border border-zinc-700" alt="Anuncio">
+                <img id="ad-img" src="https://via.placeholder.com/728x90" alt="Anuncio">
             </a>
-            <p class="text-zinc-500 text-xs mt-2 text-center">Publicidad</p>
-        </aside>
-    </main>
+        </div>
+    </div>
 
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
-<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
-<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
-<script>
-    // 1. Definimos la función de carga
-    async function cargarTransmision() {
-        try {
-            // Buscamos el config.json
-            const respuesta = await fetch('config.json?v=' + Date.now());
-            if (!respuesta.ok) return;
-            
-            const datos = await respuesta.json();
-            const vidId = datos.youtubeId;
+    <script>
+        async function cargarConfig() {
+            try {
+                const res = await fetch('config.json?v=' + Date.now());
+                const data = await res.json();
+                
+                if (data.youtubeId) {
+                    const iframe = document.getElementById('main-iframe');
+                    
+                    // 1. Construimos la URL con los parámetros que quieres
+                    const newSrc = `https://www.youtube.com/embed/${data.youtubeId}?origin=${window.location.origin}&iv_load_policy=3&modestbranding=1&playsinline=1&showinfo=0&rel=0&enablejsapi=1`;
+                    
+                    // 2. Cambiamos el src ANTES de iniciar Plyr
+                    iframe.src = newSrc;
 
-            if (!vidId || vidId === "") {
-                console.error("No hay ID en el JSON");
-                return;
-            }
-
-            // 2. BUSCAMOS EL ELEMENTO Y LE PONEMOS EL ID A MANO
-            const el = document.getElementById('player');
-            el.setAttribute('data-plyr-embed-id', vidId);
-
-            // 3. RECIÉN AQUÍ INICIALIZAMOS PLYR
-            const player = new Plyr('#player', {
-                youtube: {
-                    noCookie: true,
-                    rel: 0,
-                    showinfo: 0,
-                    autoplay: false // Para evitar bloqueos del navegador
+                    // 3. Iniciamos Plyr sobre el contenedor
+                    const player = new Plyr('#player', {
+                        youtube: { noCookie: true }
+                    });
                 }
-            });
 
-            // 4. Actualizar anuncios si existen
-            if (datos.anuncioUrl) document.getElementById('ad-img').src = datos.anuncioUrl;
-            if (datos.anuncioLink) document.getElementById('ad-link').parentElement.href = datos.anuncioLink;
+                // Actualizar anuncios
+                if (data.anuncioUrl) document.getElementById('ad-img').src = data.anuncioUrl;
+                if (data.anuncioLink) document.getElementById('ad-link').href = data.anuncioLink;
 
-        } catch (e) {
-            console.error("Fallo total:", e);
+            } catch (e) {
+                console.error("Error cargando el JSON:", e);
+            }
         }
-    }
 
-    // Ejecutamos cuando el DOM esté listo
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', cargarTransmision);
-    } else {
-        cargarTransmision();
-    }
-</script>
+        // Ejecutar
+        cargarConfig();
+    </script>
 </body>
 </html>
