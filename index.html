@@ -1,41 +1,83 @@
-<script>
-    const player = new Plyr('#player');
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>TugaStream Player</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+</head>
+<body class="bg-zinc-900 text-white min-h-screen">
 
-    async function loadConfig() {
+    <main class="container mx-auto p-4 flex flex-col lg:flex-row gap-6">
+        <div class="flex-1">
+            <div class="rounded-xl overflow-hidden shadow-2xl">
+                <div id="player" data-plyr-provider="youtube" data-plyr-embed-id=""></div>
+            </div>
+        </div>
+
+        <aside class="w-full lg:w-80">
+            <a id="ad-link" href="#" target="_blank">
+                <img id="ad-img" src="" class="w-full rounded-lg border border-zinc-700" alt="Anuncio">
+            </a>
+            <p class="text-zinc-500 text-xs mt-2 text-center">Publicidad</p>
+        </aside>
+    </main>
+
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+<script>
+    async function initStream() {
         try {
-            // El ?t= nos asegura que no use una versión vieja guardada en el navegador
+            // 1. Buscamos la configuración primero (con timestamp para evitar caché)
             const response = await fetch('config.json?t=' + new Date().getTime());
-            
-            if (!response.ok) throw new Error("No se pudo leer el config.json");
+            if (!response.ok) throw new Error("No se pudo cargar config.json");
             
             const data = await response.json();
+            const videoId = data.youtubeId;
 
-            if (data.youtubeId) {
-                player.source = {
-                    type: 'video',
-                    sources: [{
-                        src: data.youtubeId,
-                        provider: 'youtube',
-                    }],
-                };
+            // 2. Si no hay ID, no seguimos
+            if (!videoId) {
+                console.error("El ID de YouTube está vacío en el JSON");
+                return;
             }
 
-            // Actualizar anuncios
-            const adImg = document.getElementById('ad-img');
-            const adLink = document.getElementById('ad-link');
-            if(adImg && data.anuncioUrl) adImg.src = data.anuncioUrl;
-            if(adLink && data.anuncioLink) adLink.href = data.anuncioLink;
+            // 3. Inicializamos el reproductor CON el ID ya cargado
+            const player = new Plyr('#player', {
+                // Configuraciones opcionales para transmisiones en vivo
+                youtube: {
+                    noCookie: true,
+                    rel: 0,
+                    showinfo: 0,
+                    iv_load_policy: 3,
+                    modestbranding: 1
+                }
+            });
+
+            // 4. Inyectamos el video
+            player.source = {
+                type: 'video',
+                sources: [{
+                    src: videoId,
+                    provider: 'youtube',
+                }],
+            };
+
+            // 5. Actualizamos los anuncios en la UI
+            if (data.anuncioUrl) document.getElementById('ad-img').src = data.anuncioUrl;
+            if (data.anuncioLink) document.getElementById('ad-link').href = data.anuncioLink;
 
         } catch (error) {
-            console.error("Error detallado:", error);
-            // Si falla, carga uno por defecto para que no se vea vacío
-            player.source = {
+            console.error("Error inicializando el sitio:", error);
+            // Si todo falla, carga un video de emergencia
+            const fallbackPlayer = new Plyr('#player');
+            fallbackPlayer.source = {
                 type: 'video',
                 sources: [{ src: 'dQw4w9WgXcQ', provider: 'youtube' }],
             };
         }
     }
 
-    // Ejecutar al cargar
-    loadConfig();
+    // Ejecutar la función principal
+    initStream();
 </script>
+</body>
+</html>
