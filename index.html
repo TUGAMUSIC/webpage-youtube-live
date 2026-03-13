@@ -24,60 +24,48 @@
     </main>
 
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+<script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 <script>
-    async function initStream() {
-        try {
-            // 1. Buscamos la configuración primero (con timestamp para evitar caché)
-            const response = await fetch('config.json?t=' + new Date().getTime());
-            if (!response.ok) throw new Error("No se pudo cargar config.json");
-            
-            const data = await response.json();
-            const videoId = data.youtubeId;
-
-            // 2. Si no hay ID, no seguimos
-            if (!videoId) {
-                console.error("El ID de YouTube está vacío en el JSON");
-                return;
-            }
-
-            // 3. Inicializamos el reproductor CON el ID ya cargado
-            const player = new Plyr('#player', {
-                // Configuraciones opcionales para transmisiones en vivo
-                youtube: {
-                    noCookie: true,
-                    rel: 0,
-                    showinfo: 0,
-                    iv_load_policy: 3,
-                    modestbranding: 1
+    // Esto asegura que todo (incluyendo la librería Plyr) esté cargado
+    window.onload = function() {
+        
+        async function initStream() {
+            try {
+                // Verificamos si Plyr cargó correctamente
+                if (typeof Plyr === 'undefined') {
+                    console.error("La librería Plyr no se pudo cargar desde el CDN.");
+                    return;
                 }
-            });
 
-            // 4. Inyectamos el video
-            player.source = {
-                type: 'video',
-                sources: [{
-                    src: videoId,
-                    provider: 'youtube',
-                }],
-            };
+                const response = await fetch('config.json?t=' + new Date().getTime());
+                if (!response.ok) throw new Error("No se pudo cargar config.json");
+                
+                const data = await response.json();
+                const videoId = data.youtubeId;
 
-            // 5. Actualizamos los anuncios en la UI
-            if (data.anuncioUrl) document.getElementById('ad-img').src = data.anuncioUrl;
-            if (data.anuncioLink) document.getElementById('ad-link').href = data.anuncioLink;
+                if (!videoId) return;
 
-        } catch (error) {
-            console.error("Error inicializando el sitio:", error);
-            // Si todo falla, carga un video de emergencia
-            const fallbackPlayer = new Plyr('#player');
-            fallbackPlayer.source = {
-                type: 'video',
-                sources: [{ src: 'dQw4w9WgXcQ', provider: 'youtube' }],
-            };
+                // Inicializamos el reproductor
+                const player = new Plyr('#player', {
+                    youtube: { noCookie: true, rel: 0, showinfo: 0 }
+                });
+
+                player.source = {
+                    type: 'video',
+                    sources: [{ src: videoId, provider: 'youtube' }],
+                };
+
+                // Actualizar anuncios
+                if (data.anuncioUrl) document.getElementById('ad-img').src = data.anuncioUrl;
+                if (data.anuncioLink) document.getElementById('ad-link').href = data.anuncioLink;
+
+            } catch (error) {
+                console.error("Error en la carga:", error);
+            }
         }
-    }
 
-    // Ejecutar la función principal
-    initStream();
+        initStream();
+    };
 </script>
 </body>
 </html>
