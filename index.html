@@ -25,8 +25,8 @@
         }
 
         .glass {
-            background: rgba(10, 10, 12, 0.7);
-            backdrop-filter: blur(15px);
+            background: rgba(15, 15, 18, 0.7);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
@@ -34,37 +34,53 @@
             position: relative;
             width: 100%;
             background: #000;
-            border-radius: 12px;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 1);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Plyr Customization */
+        /* Plyr Custom */
         .plyr {
             height: 100% !important;
             width: 100% !important;
             --plyr-color-main: var(--accent);
         }
 
-        .plyr__control--overlaid {
-            background: rgba(0, 112, 255, 0.8) !important;
-            padding: 20px !important;
+        /* Etiquetas de Publicidad */
+        .ad-label {
+            font-size: 9px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #555;
+            margin-bottom: 8px;
+            display: block;
+            text-align: center;
         }
 
-        /* --- SOLUCIÓN AL SCROLL DEL CHAT --- */
+        /* Contenedores de Anuncios */
+        .ad-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 24px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Solución Scroll Chat */
         .chat-container {
             position: relative;
         }
 
-        /* Capa invisible que permite el scroll de la página principal */
         #chat-iframe {
             pointer-events: none;
-            /* Por defecto, el mouse "atraviesa" el chat */
             transition: pointer-events 0.2s;
         }
 
-        /* Cuando el usuario hace clic en el contenedor o chat, se activa para escribir */
         .chat-active #chat-iframe {
             pointer-events: auto;
         }
@@ -75,35 +91,28 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(0, 0, 0, 0);
-            pointer-events: auto;
-            cursor: pointer;
             z-index: 10;
-            transition: background 0.3s;
+            cursor: pointer;
         }
 
         .chat-active .chat-overlay-hint {
             display: none;
-            /* Ocultar cuando está activo */
         }
-
-        /* ---------------------------------- */
 
         .live-tag {
             animation: pulse-border 2s infinite;
-            border: 1px solid rgba(239, 68, 68, 0.5);
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
         @keyframes pulse-border {
 
             0%,
             100% {
-                border-color: rgba(239, 68, 68, 0.5);
+                border-color: rgba(239, 68, 68, 0.3);
             }
 
             50% {
                 border-color: rgba(239, 68, 68, 1);
-                box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
             }
         }
 
@@ -112,108 +121,133 @@
         }
 
         ::-webkit-scrollbar-thumb {
-            background: var(--accent);
+            background: #222;
             border-radius: 10px;
         }
     </style>
 </head>
 
-<body class="antialiased">
+<body class="antialiased pb-32">
+
+    <div id="ad-interstitial" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black">
+        <div class="p-8 text-center max-w-lg">
+            <span class="ad-label mb-4">Sponsor Message</span>
+            <div class="mb-8 rounded-xl overflow-hidden border border-white/10 shadow-2xl">
+                <script type="text/javascript">
+                    atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 250, 'width': 300, 'params': {} };
+                </script>
+                <script src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
+            </div>
+            <button onclick="startStream()" id="interstitial-btn"
+                class="w-full px-8 py-4 bg-zinc-900 text-zinc-500 rounded-2xl text-[10px] font-black tracking-[0.2em] border border-white/5 transition-all cursor-not-allowed">
+                ESPERANDO ANUNCIO...
+            </button>
+        </div>
+    </div>
 
     <header class="sticky top-0 z-[100] glass px-6 py-4 border-b border-white/5">
-        <div class="max-w-[1800px] mx-auto flex justify-between items-center">
+        <div class="max-w-[1920px] mx-auto flex justify-between items-center">
             <div class="flex items-center gap-4">
                 <div
-                    class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-900 rounded-xl flex items-center justify-center font-black shadow-lg shadow-blue-500/20">
+                    class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-900 rounded-xl flex items-center justify-center font-black shadow-lg shadow-blue-500/20 text-white">
                     T</div>
-                <h1 class="text-xl font-black tracking-tighter uppercase">TugaMusic <span
-                        class="text-zinc-500 font-light">Records</span></h1>
+                <h1 class="text-xl font-black tracking-tighter uppercase text-white">TugaMusic <span
+                        class="text-zinc-500 font-light italic">Records</span></h1>
             </div>
             <div class="live-tag bg-red-500/10 px-4 py-1.5 rounded-full flex items-center gap-2">
                 <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                <span class="text-[10px] font-black tracking-[0.2em] text-white uppercase">Live</span>
+                <span class="text-[9px] font-black tracking-[0.2em] text-white uppercase text-white">Live</span>
             </div>
         </div>
     </header>
 
-    <main class="max-w-[1800px] mx-auto p-4 md:p-8">
-        <div class="flex flex-col xl:flex-row gap-8">
+    <main class="max-w-[1920px] mx-auto p-4 md:p-10">
 
-            <div class="flex-1 space-y-8">
-                <div class="video-hero group">
+        <div class="flex flex-col xl:flex-row gap-12">
+
+            <div class="flex-1 space-y-10">
+                <div class="video-hero group" id="video-container">
                     <div id="player" class="w-full h-full" data-plyr-provider="youtube"
                         data-plyr-embed-id="0ZpXIwQ-o-U"></div>
                 </div>
 
-                <div class="flex flex-col lg:flex-row justify-between items-start gap-6 px-2">
-                    <div class="space-y-4 max-w-2xl">
-                        <h2 id="stream-title"
-                            class="text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">Nu-Disco vs
-                            House</h2>
-                        <div class="flex items-center gap-3">
+                <div class="flex flex-col lg:flex-row justify-between items-start gap-8 px-2">
+                    <div class="space-y-4">
+                        <h2
+                            class="text-4xl md:text-6xl font-black tracking-tight text-white leading-none italic uppercase">
+                            Nu-Disco vs House</h2>
+                        <div class="flex items-center gap-4">
                             <div
-                                class="w-12 h-12 rounded bg-gradient-to-br from-zinc-800 to-black border border-white/10 flex items-center justify-center text-xs font-bold">
+                                class="w-14 h-14 rounded-2xl bg-zinc-900 border border-white/10 flex items-center justify-center text-xs font-bold text-white shadow-xl">
                                 TM</div>
                             <div>
-                                <p class="text-sm font-black text-white uppercase tracking-wider">TugaMusic Official</p>
-                                <p class="text-xs text-zinc-300">Tugajr DJ SET</p>
+                                <p class="text-sm font-black text-white uppercase tracking-widest">TugaMusic Official
+                                </p>
+                                <p class="text-xs text-blue-500 font-bold uppercase tracking-widest">Tugajr Live Session
+                                </p>
                             </div>
                         </div>
                     </div>
-                    <div class="flex gap-4 w-full lg:w-auto">
-                        <a href="https://www.youtube.com/@tugamusicrecords" target="_blank"
-                            class="flex-1 lg:flex-none text-center px-8 py-4 bg-white text-black rounded-2xl font-black text-xs tracking-widest hover:bg-blue-600 hover:text-white transition-all transform hover:-translate-y-1">SUSCRIBIR</a>
-                    </div>
+                    <a href="https://www.youtube.com/@tugamusicrecords" target="_blank"
+                        class="px-10 py-5 bg-white text-black rounded-2xl font-black text-[10px] tracking-[0.2em] hover:bg-blue-600 hover:text-white transition-all shadow-xl">SUBSCRIBE</a>
                 </div>
 
-                <div class="w-full glass rounded-3xl p-6 ad-slot overflow-hidden flex flex-col items-center gap-4">
-                    <span class="text-[10px] text-zinc-500 font-bold tracking-widest uppercase"></span></span>
-                    <div id="ad-container-top" class="w-full flex justify-center scale-90 md:scale-100">
+                <div class="ad-card w-full">
+                    <span class="ad-label">Sponsor Portfolio</span>
+                    <div class="w-full flex justify-center">
                         <script type="text/javascript">
                             atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
                         </script>
-                        <script type="text/javascript"
+                        <script
                             src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
                     </div>
                 </div>
             </div>
 
-            <div class="w-full xl:w-[420px] space-y-6">
+            <div class="w-full xl:w-[450px] flex flex-col gap-6">
+
                 <div id="chat-parent"
-                    class="chat-container glass rounded-[32px] overflow-hidden flex flex-col h-[600px] xl:h-[calc(100vh-160px)] sticky top-28">
-
-                    <div class="chat-overlay-hint" onclick="activateChat()">
+                    class="glass rounded-[40px] overflow-hidden flex flex-col h-[550px] shadow-3xl sticky top-28 chat-container">
+                    <div class="chat-overlay-hint group" onclick="activateChat()">
                         <div
-                            class="bg-blue-600/90 text-white text-[10px] font-black px-4 py-2 rounded-full shadow-xl opacity-0 hover:opacity-100 transition-opacity">
-                            CLIC PARA INTERACTUAR</div>
+                            class="bg-blue-600 text-white text-[9px] font-black px-6 py-3 rounded-full opacity-0 group-hover:opacity-100 transition-all uppercase tracking-widest">
+                            Click para escribir</div>
                     </div>
-
                     <div class="p-6 border-b border-white/5 flex items-center justify-between">
-                        <span class="text-xs font-black uppercase tracking-widest text-zinc-400">Live Community</span>
-                        <div class="flex gap-1.5">
-                            <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                            <button onclick="deactivateChat()"
-                                class="text-[9px] text-zinc-500 hover:text-white ml-2"></button>
-                        </div>
+                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Live Chat</span>
+                        <button onclick="deactivateChat()"
+                            class="text-[9px] text-zinc-700 hover:text-white transition-colors">BLOQUEAR SCROLL</button>
                     </div>
-
-                    <div class="flex-1 bg-black/40">
+                    <div class="flex-1 bg-black/50">
                         <iframe id="chat-iframe" src="" class="w-full h-full" allowfullscreen></iframe>
                     </div>
+                </div>
 
-                    <div class="p-4 bg-white/[0.02] border-t border-white/5 flex justify-center">
-                        <div id="ad-container-side">
-                            <script type="text/javascript">
-                                atOptions = { 'key': '155282ebb193f0f3cfce7f418a22d357', 'format': 'iframe', 'height': 300, 'width': 160, 'params': {} };
-                            </script>
-                            <script type="text/javascript"
-                                src="https://www.highperformanceformat.com/155282ebb193f0f3cfce7f418a22d357/invoke.js"></script>
-                        </div>
+                <div class="ad-card w-full sticky top-[710px]">
+                    <span class="ad-label">Promoted Content</span>
+                    <div class="flex justify-center rounded-xl overflow-hidden bg-black/20 p-2">
+                        <script type="text/javascript">
+                            atOptions = { 'key': '155282ebb193f0f3cfce7f418a22d357', 'format': 'iframe', 'height': 300, 'width': 160, 'params': {} };
+                        </script>
+                        <script
+                            src="https://www.highperformanceformat.com/155282ebb193f0f3cfce7f418a22d357/invoke.js"></script>
                     </div>
                 </div>
+
             </div>
         </div>
     </main>
+
+    <div
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[50] glass p-2 rounded-2xl shadow-2xl border border-white/10 flex flex-col items-center">
+        <span class="text-[7px] font-black text-zinc-600 mb-1 uppercase tracking-tighter">Advertisement</span>
+        <div class="scale-75 md:scale-90 origin-bottom">
+            <script type="text/javascript">
+                atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
+            </script>
+            <script src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
+        </div>
+    </div>
 
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
     <script>
@@ -222,35 +256,41 @@
             dominio: window.location.hostname || "tugamusic.github.io"
         };
 
-        // Funciones para manejar el scroll del chat
-        function activateChat() {
-            document.getElementById('chat-parent').classList.add('chat-active');
+        // Interstitial
+        let adTimer = 8;
+        const btn = document.querySelector("#ad-interstitial button");
+        const interval = setInterval(() => {
+            adTimer--;
+            if (adTimer <= 0) {
+                clearInterval(interval);
+                btn.classList.replace("bg-zinc-900", "bg-blue-600");
+                btn.classList.replace("text-zinc-500", "text-white");
+                btn.classList.remove("cursor-not-allowed");
+                btn.innerText = "CONTINUAR AL STREAM";
+            } else {
+                btn.innerText = "SKIP IN " + adTimer;
+            }
+        }, 1000);
+
+        function startStream() {
+            if (adTimer > 0) return;
+            document.getElementById("ad-interstitial").style.display = "none";
+            initApp();
         }
 
-        function deactivateChat() {
-            document.getElementById('chat-parent').classList.remove('chat-active');
-        }
-
-        // Si el usuario saca el mouse del chat, lo desactivamos para liberar el scroll
+        // Scroll
+        function activateChat() { document.getElementById('chat-parent').classList.add('chat-active'); }
+        function deactivateChat() { document.getElementById('chat-parent').classList.remove('chat-active'); }
         document.getElementById('chat-parent').addEventListener('mouseleave', deactivateChat);
 
         function initApp() {
-            const chatUrl = `https://www.youtube.com/live_chat?v=${CONFIG.youtubeId}&embed_domain=${CONFIG.dominio}&dark_theme=1`;
-            document.getElementById('chat-iframe').src = chatUrl;
-
-            const player = new Plyr('#player', {
+            document.getElementById('chat-iframe').src = `https://www.youtube.com/live_chat?v=${CONFIG.youtubeId}&embed_domain=${CONFIG.dominio}&dark_theme=1`;
+            new Plyr('#player', {
                 autoplay: true,
                 controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
                 youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
             });
-
-            window.addEventListener('resize', () => {
-                const adTop = document.getElementById('ad-container-top');
-                if (window.innerWidth < 768) adTop.style.transform = `scale(${window.innerWidth / 800})`;
-            });
         }
-
-        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 
