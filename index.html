@@ -4,235 +4,184 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="monetag" content="66533d9b0ca53aaadf43271e2c878506">
-    <title>LIVE | TUGAMUSIC Professional</title>
+    <title>STREAMING | TUGAMUSIC Records</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 
     <style>
+        :root {
+            --accent: #ec4899;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #050505;
+            background-color: #030303;
+            color: #fff;
             overflow-x: hidden;
         }
 
-        /* Glassmorphism Dinámico */
-        .glass-header {
-            background: rgba(5, 5, 5, 0.8);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .glass-card {
-            background: rgba(15, 15, 18, 0.6);
-            backdrop-filter: blur(12px);
+        /* Glassmorphism Premium */
+        .glass {
+            background: rgba(10, 10, 12, 0.7);
+            backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Scrollbar Premium */
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
+        /* Contenedor de Video Dinámico (Vimeo Style) */
+        .video-hero {
+            position: relative;
+            width: 100%;
+            background: #000;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        ::-webkit-scrollbar-track {
-            background: #050505;
+        /* Arreglo Responsivo de Plyr */
+        .plyr {
+            height: 100% !important;
+            width: 100% !important;
+            --plyr-color-main: var(--accent);
+        }
+
+        .plyr__video-wrapper {
+            height: 100% !important;
+            width: 100% !important;
+        }
+
+        /* Espaciado para Anuncios */
+        .ad-slot {
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-center;
+        }
+
+        /* Animación de Live */
+        .live-tag {
+            animation: pulse-border 2s infinite;
+            border: 1px solid rgba(239, 68, 68, 0.5);
+        }
+
+        @keyframes pulse-border {
+            0% {
+                border-color: rgba(239, 68, 68, 0.5);
+            }
+
+            50% {
+                border-color: rgba(239, 68, 68, 1);
+                box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
+            }
+
+            100% {
+                border-color: rgba(239, 68, 68, 0.5);
+            }
+        }
+
+        /* Scrollbar Invisible pero Funcional */
+        ::-webkit-scrollbar {
+            width: 4px;
         }
 
         ::-webkit-scrollbar-thumb {
             background: #222;
-            border-radius: 5px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: #ec4899;
-        }
-
-        /* Contenedor Flex para el Player (Elimina el aspect-video) */
-        .player-wrapper {
-            width: 100%;
-            height: auto;
-            min-height: 300px;
-            /* Evita colapso en carga */
-            background: #000;
-        }
-
-        /* Plyr Overrides para estética minimalista */
-        .plyr {
-            border-radius: 1rem;
-            --plyr-color-main: #ec4899;
-        }
-
-        /* Animación Live */
-        .live-indicator {
-            position: relative;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 14px;
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: 99px;
-        }
-
-        .live-dot {
-            width: 8px;
-            height: 8px;
-            background: #ef4444;
-            border-radius: 50%;
-            box-shadow: 0 0 12px #ef4444;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0% {
-                opacity: 1;
-                transform: scale(1);
-            }
-
-            50% {
-                opacity: 0.5;
-                transform: scale(1.2);
-            }
-
-            100% {
-                opacity: 1;
-                transform: scale(1);
-            }
-        }
-
-        /* Gradientes sutiles de fondo */
-        .bg-glow {
-            position: fixed;
-            top: 0;
-            right: 0;
-            width: 50vw;
-            height: 50vh;
-            background: radial-gradient(circle at 50% 50%, rgba(236, 72, 153, 0.05) 0%, transparent 70%);
-            z-index: -1;
-            pointer-events: none;
+            border-radius: 10px;
         }
     </style>
 </head>
 
-<body class="text-zinc-200 antialiased">
-    <div class="bg-glow"></div>
+<body class="antialiased">
 
-    <nav class="sticky top-0 z-[100] w-full glass-header">
-        <div class="max-w-[1920px] mx-auto flex justify-between items-center px-6 py-4">
-            <div class="flex items-center gap-6">
-                <a href="#" class="group flex items-center gap-3">
-                    <div
-                        class="w-10 h-10 bg-gradient-to-tr from-pink-600 to-violet-700 rounded-xl flex items-center justify-center shadow-lg shadow-pink-600/20 group-hover:scale-105 transition-transform">
-                        <span class="font-black text-white">T</span>
-                    </div>
-                    <div class="text-xl font-extrabold tracking-tighter text-white">
-                        TUGA<span class="text-zinc-300 font-light">MUSIC records</span>
-                    </div>
-                </a>
+    <header class="sticky top-0 z-[100] glass px-6 py-4 border-b border-white/5">
+        <div class="max-w-[1800px] mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-4">
+                <div
+                    class="w-10 h-10 bg-gradient-to-tr from-pink-600 to-indigo-600 rounded-xl flex items-center justify-center font-black  shadow-lg shadow-pink-500/20">
+                    T</div>
+                <h1 class="text-xl font-black tracking-tighter uppercase">TugaMusic <span
+                        class="text-zinc-500 font-light">Records</span></h1>
             </div>
-
-            <div class="live-indicator">
-                <span class="live-dot"></span>
-                <span class="text-[10px] font-black uppercase tracking-[0.2em] text-red-500">Live Stream</span>
+            <div class="live-tag bg-red-500/10 px-4 py-1.5 rounded-full flex items-center gap-2">
+                <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+                <span class="text-[10px] font-black tracking-[0.2em] text-white">LIVE</span>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <main class="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-10 py-6 lg:py-10">
-        <div class="flex flex-col lg:flex-row gap-8 lg:gap-12">
+    <main class="max-w-[1800px] mx-auto p-4 md:p-8">
+        <div class="flex flex-col xl:flex-row gap-8">
 
             <div class="flex-1 space-y-8">
 
-                <div class="player-wrapper rounded-3xl overflow-hidden shadow-2xl shadow-black ring-1 ring-white/10">
-                    <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="0ZpXIwQ-o-U"></div>
+                <div class="video-hero group">
+                    <div id="player" class="w-full h-full" data-plyr-provider="youtube"
+                        data-plyr-embed-id="0ZpXIwQ-o-U"></div>
                 </div>
 
-                <div class="space-y-6">
-                    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
-                        <div class="space-y-2">
-                            <h1 id="stream-title"
-                                class="text-3xl md:text-5xl font-black text-white tracking-tight leading-none">
-                                Cargando...
-                            </h1>
-                            <div class="flex items-center gap-4 pt-2">
-                                <div class="flex items-center gap-3">
-                                    <div
-                                        class="w-12 h-12 rounded-full bg-gradient-to-br from-zinc-700 to-zinc-900 border border-white/10 flex items-center justify-center overflow-hidden">
-                                        <span class="text-xs font-bold">TM</span>
-                                    </div>
-                                    <div>
-                                        <p class="text-sm font-bold text-white tracking-wide uppercase">TugaMusic
-                                            Records</p>
-                                        <p class="text-xs text-zinc-500">Verified Producer</p>
-                                    </div>
-                                </div>
-                                <a href="https://www.youtube.com/@tugamusicrecords" target="_blank"
-                                    class="bg-white/5 hover:bg-pink-600 text-white px-5 py-2.5 rounded-2xl text-xs font-bold transition-all border border-white/10 hover:border-pink-500">
-                                    SUSCRIBIRSE
-                                </a>
+                <div class="flex flex-col lg:flex-row justify-between items-start gap-6 px-2">
+                    <div class="space-y-4 max-w-2xl">
+                        <h2 id="stream-title"
+                            class="text-3xl md:text-5xl font-black tracking-tight text-white leading-tight ">
+                            Nu-Disco vs House</h2>
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-12 h-12 rounded bg-gradient-to-br from-zinc-800 to-black border border-white/10 flex items-center justify-center text-xs font-bold">
+                                TM</div>
+                            <div>
+                                <p class="text-sm font-black text-white uppercase tracking-wider">TugaMusic Official</p>
+                                <p class="text-xs text-zinc-300">Tugajr DJ SET</p>
                             </div>
-                        </div>
-
-                        <div class="flex gap-3">
-                            <button
-                                class="w-12 h-12 glass-card rounded-2xl flex items-center justify-center hover:bg-white/10 transition-colors">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
-                                </svg>
-                            </button>
-                            <button
-                                class="px-6 py-3 bg-white text-black rounded-2xl font-black text-xs tracking-widest hover:bg-pink-500 hover:text-white transition-all">
-                                APOYAR CANAL
-                            </button>
                         </div>
                     </div>
 
-                    <div
-                        class="w-full h-auto min-h-[90px] glass-card rounded-2xl overflow-hidden flex items-center justify-center p-4">
-                        <script type="text/javascript">
-                            atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
-                        </script>
-                        <script type="text/javascript"
-                            src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
+                    <div class="flex gap-4 w-full lg:w-auto">
+                        <button href="https://www.youtube.com/@tugamusicrecords"
+                            class="flex-1 lg:flex-none px-8 py-4 bg-white text-black rounded-2xl font-black text-xs tracking-widest hover:bg-pink-500 hover:text-white transition-all transform hover:-translate-y-1">SUSCRIBIR</button>
+                    </div>
+                </div>
+
+                <div class="w-full glass rounded-3xl p-6 ad-slot overflow-hidden">
+                    <div class="w-full flex justify-center scale-90 md:scale-100">
+                        PUBLICIDAD
+                        <div id="ad-container-top">
+                            <script type="text/javascript">
+                                atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
+                            </script>
+                            <script type="text/javascript"
+                                src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="w-full lg:w-[400px] xl:w-[450px] flex flex-col gap-6">
+            <div class="w-full xl:w-[420px] space-y-6">
 
                 <div
-                    class="glass-card rounded-3xl flex flex-col h-[650px] lg:h-[calc(100vh-180px)] shadow-2xl overflow-hidden sticky top-28">
-                    <div class="px-6 py-5 border-b border-white/5 flex justify-between items-center bg-white/[0.01]">
-                        <div class="flex items-center gap-3">
-                            <span class="text-xs font-black uppercase tracking-[0.2em] text-zinc-400">Live Chat</span>
-                            <span class="flex h-2 w-2 rounded-full bg-green-500 shadow-[0_0_8px_#22c55e]"></span>
+                    class="glass rounded-[32px] overflow-hidden flex flex-col h-[600px] xl:h-[calc(100vh-160px)] sticky top-28">
+                    <div class="p-6 border-b border-white/5 flex items-center justify-between">
+                        <span class="text-xs font-black uppercase tracking-widest text-zinc-400">Live Community</span>
+                        <div class="flex gap-1.5">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-500/20"></div>
                         </div>
-                        <button class="text-zinc-500 hover:text-white transition-colors">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                            </svg>
-                        </button>
                     </div>
-
-                    <div class="flex-1 bg-[#020202]">
+                    <div class="flex-1 bg-black/40">
                         <iframe id="chat-iframe" src="" class="w-full h-full" allowfullscreen></iframe>
                     </div>
 
-                    <div class="p-4 bg-white/[0.01] border-t border-white/5 flex justify-center">
-                        <script type="text/javascript">
-                            atOptions = { 'key': '155282ebb193f0f3cfce7f418a22d357', 'format': 'iframe', 'height': 300, 'width': 160, 'params': {} };
-                        </script>
-                        <script type="text/javascript"
-                            src="https://www.highperformanceformat.com/155282ebb193f0f3cfce7f418a22d357/invoke.js"></script>
+                    <div class="p-4 bg-white/[0.02] border-t border-white/5 flex justify-center">
+                        <div id="ad-container-side">
+                            <script type="text/javascript">
+                                atOptions = { 'key': '155282ebb193f0f3cfce7f418a22d357', 'format': 'iframe', 'height': 300, 'width': 160, 'params': {} };
+                            </script>
+                            <script type="text/javascript"
+                                src="https://www.highperformanceformat.com/155282ebb193f0f3cfce7f418a22d357/invoke.js"></script>
+                        </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </main>
@@ -241,30 +190,25 @@
     <script>
         const CONFIG = {
             youtubeId: "0ZpXIwQ-o-U",
-            titulo: "Nu-Disco vs House",
             dominio: window.location.hostname || "tugamusic.github.io"
         };
 
         function initApp() {
-            document.getElementById('stream-title').innerText = CONFIG.titulo;
-
+            // Cargar Chat
             const chatUrl = `https://www.youtube.com/live_chat?v=${CONFIG.youtubeId}&embed_domain=${CONFIG.dominio}&dark_theme=1`;
             document.getElementById('chat-iframe').src = chatUrl;
 
+            // Iniciar Player con Aspect Ratio Variable
             const player = new Plyr('#player', {
                 autoplay: true,
-                muted: false,
-                quality: { default: 1080, options: [1080, 720, 480] },
-                youtube: {
-                    noCookie: true,
-                    rel: 0,
-                    showinfo: 0,
-                    iv_load_policy: 3,
-                    modestbranding: 1
-                }
+                youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
             });
 
-            window.player = player;
+            // Fix de responsividad para anuncios (recarga si el contenedor es muy pequeño)
+            window.addEventListener('resize', () => {
+                const adTop = document.getElementById('ad-container-top');
+                if (window.innerWidth < 768) adTop.style.transform = `scale(${window.innerWidth / 800})`;
+            });
         }
 
         document.addEventListener('DOMContentLoaded', initApp);
