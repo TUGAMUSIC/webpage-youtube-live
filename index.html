@@ -13,7 +13,8 @@
 
     <style>
         :root {
-            --accent: #ec4899;
+            --accent: #0070ff;
+            --accent-glow: rgba(0, 112, 255, 0.4);
         }
 
         body {
@@ -23,52 +24,80 @@
             overflow-x: hidden;
         }
 
-        /* Glassmorphism Premium */
         .glass {
             background: rgba(10, 10, 12, 0.7);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        /* Contenedor de Video Dinámico (Vimeo Style) */
         .video-hero {
             position: relative;
             width: 100%;
             background: #000;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.8);
             border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        /* Arreglo Responsivo de Plyr */
+        /* Plyr Customization */
         .plyr {
             height: 100% !important;
             width: 100% !important;
             --plyr-color-main: var(--accent);
         }
 
-        .plyr__video-wrapper {
-            height: 100% !important;
-            width: 100% !important;
+        .plyr__control--overlaid {
+            background: rgba(0, 112, 255, 0.8) !important;
+            padding: 20px !important;
         }
 
-        /* Espaciado para Anuncios */
-        .ad-slot {
-            min-height: 100px;
+        /* --- SOLUCIÓN AL SCROLL DEL CHAT --- */
+        .chat-container {
+            position: relative;
+        }
+
+        /* Capa invisible que permite el scroll de la página principal */
+        #chat-iframe {
+            pointer-events: none;
+            /* Por defecto, el mouse "atraviesa" el chat */
+            transition: pointer-events 0.2s;
+        }
+
+        /* Cuando el usuario hace clic en el contenedor o chat, se activa para escribir */
+        .chat-active #chat-iframe {
+            pointer-events: auto;
+        }
+
+        .chat-overlay-hint {
+            position: absolute;
+            inset: 0;
             display: flex;
             align-items: center;
             justify-content: center;
+            background: rgba(0, 0, 0, 0);
+            pointer-events: auto;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.3s;
         }
 
-        /* Animación de Live */
+        .chat-active .chat-overlay-hint {
+            display: none;
+            /* Ocultar cuando está activo */
+        }
+
+        /* ---------------------------------- */
+
         .live-tag {
             animation: pulse-border 2s infinite;
             border: 1px solid rgba(239, 68, 68, 0.5);
         }
 
         @keyframes pulse-border {
-            0% {
+
+            0%,
+            100% {
                 border-color: rgba(239, 68, 68, 0.5);
             }
 
@@ -76,19 +105,14 @@
                 border-color: rgba(239, 68, 68, 1);
                 box-shadow: 0 0 10px rgba(239, 68, 68, 0.3);
             }
-
-            100% {
-                border-color: rgba(239, 68, 68, 0.5);
-            }
         }
 
-        /* Scrollbar Invisible pero Funcional */
         ::-webkit-scrollbar {
             width: 4px;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #222;
+            background: var(--accent);
             border-radius: 10px;
         }
     </style>
@@ -100,14 +124,14 @@
         <div class="max-w-[1800px] mx-auto flex justify-between items-center">
             <div class="flex items-center gap-4">
                 <div
-                    class="w-10 h-10 bg-gradient-to-tr from-pink-600 to-indigo-600 rounded-xl flex items-center justify-center font-black  shadow-lg shadow-pink-500/20">
+                    class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-900 rounded-xl flex items-center justify-center font-black shadow-lg shadow-blue-500/20">
                     T</div>
                 <h1 class="text-xl font-black tracking-tighter uppercase">TugaMusic <span
                         class="text-zinc-500 font-light">Records</span></h1>
             </div>
             <div class="live-tag bg-red-500/10 px-4 py-1.5 rounded-full flex items-center gap-2">
-                <span class="w-2 h-2 bg-red-500 rounded-full"></span>
-                <span class="text-[10px] font-black tracking-[0.2em] text-white">LIVE</span>
+                <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                <span class="text-[10px] font-black tracking-[0.2em] text-white uppercase">Live</span>
             </div>
         </div>
     </header>
@@ -116,7 +140,6 @@
         <div class="flex flex-col xl:flex-row gap-8">
 
             <div class="flex-1 space-y-8">
-
                 <div class="video-hero group">
                     <div id="player" class="w-full h-full" data-plyr-provider="youtube"
                         data-plyr-embed-id="0ZpXIwQ-o-U"></div>
@@ -125,8 +148,8 @@
                 <div class="flex flex-col lg:flex-row justify-between items-start gap-6 px-2">
                     <div class="space-y-4 max-w-2xl">
                         <h2 id="stream-title"
-                            class="text-3xl md:text-5xl font-black tracking-tight text-white leading-tight ">
-                            Nu-Disco vs House</h2>
+                            class="text-3xl md:text-5xl font-black tracking-tight text-white leading-tight">Nu-Disco vs
+                            House</h2>
                         <div class="flex items-center gap-3">
                             <div
                                 class="w-12 h-12 rounded bg-gradient-to-br from-zinc-800 to-black border border-white/10 flex items-center justify-center text-xs font-bold">
@@ -137,38 +160,43 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="flex gap-4 w-full lg:w-auto">
-                        <button href="https://www.youtube.com/@tugamusicrecords"
-                            class="flex-1 lg:flex-none px-8 py-4 bg-white text-black rounded-2xl font-black text-xs tracking-widest hover:bg-pink-500 hover:text-white transition-all transform hover:-translate-y-1">SUSCRIBIR</button>
+                        <a href="https://www.youtube.com/@tugamusicrecords" target="_blank"
+                            class="flex-1 lg:flex-none text-center px-8 py-4 bg-white text-black rounded-2xl font-black text-xs tracking-widest hover:bg-blue-600 hover:text-white transition-all transform hover:-translate-y-1">SUSCRIBIR</a>
                     </div>
                 </div>
 
-                <div class="w-full glass rounded-3xl p-6 ad-slot overflow-hidden">
-                    <div class="w-full flex justify-center scale-90 md:scale-100">
-                        PUBLICIDAD
-                        <div id="ad-container-top">
-                            <script type="text/javascript">
-                                atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
-                            </script>
-                            <script type="text/javascript"
-                                src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
-                        </div>
+                <div class="w-full glass rounded-3xl p-6 ad-slot overflow-hidden flex flex-col items-center gap-4">
+                    <span class="text-[10px] text-zinc-500 font-bold tracking-widest uppercase"></span></span>
+                    <div id="ad-container-top" class="w-full flex justify-center scale-90 md:scale-100">
+                        <script type="text/javascript">
+                            atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
+                        </script>
+                        <script type="text/javascript"
+                            src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
                     </div>
                 </div>
             </div>
 
             <div class="w-full xl:w-[420px] space-y-6">
+                <div id="chat-parent"
+                    class="chat-container glass rounded-[32px] overflow-hidden flex flex-col h-[600px] xl:h-[calc(100vh-160px)] sticky top-28">
 
-                <div
-                    class="glass rounded-[32px] overflow-hidden flex flex-col h-[600px] xl:h-[calc(100vh-160px)] sticky top-28">
+                    <div class="chat-overlay-hint" onclick="activateChat()">
+                        <div
+                            class="bg-blue-600/90 text-white text-[10px] font-black px-4 py-2 rounded-full shadow-xl opacity-0 hover:opacity-100 transition-opacity">
+                            CLIC PARA INTERACTUAR</div>
+                    </div>
+
                     <div class="p-6 border-b border-white/5 flex items-center justify-between">
                         <span class="text-xs font-black uppercase tracking-widest text-zinc-400">Live Community</span>
                         <div class="flex gap-1.5">
                             <div class="w-1.5 h-1.5 rounded-full bg-green-500"></div>
-                            <div class="w-1.5 h-1.5 rounded-full bg-green-500/20"></div>
+                            <button onclick="deactivateChat()"
+                                class="text-[9px] text-zinc-500 hover:text-white ml-2"></button>
                         </div>
                     </div>
+
                     <div class="flex-1 bg-black/40">
                         <iframe id="chat-iframe" src="" class="w-full h-full" allowfullscreen></iframe>
                     </div>
@@ -194,18 +222,28 @@
             dominio: window.location.hostname || "tugamusic.github.io"
         };
 
+        // Funciones para manejar el scroll del chat
+        function activateChat() {
+            document.getElementById('chat-parent').classList.add('chat-active');
+        }
+
+        function deactivateChat() {
+            document.getElementById('chat-parent').classList.remove('chat-active');
+        }
+
+        // Si el usuario saca el mouse del chat, lo desactivamos para liberar el scroll
+        document.getElementById('chat-parent').addEventListener('mouseleave', deactivateChat);
+
         function initApp() {
-            // Cargar Chat
             const chatUrl = `https://www.youtube.com/live_chat?v=${CONFIG.youtubeId}&embed_domain=${CONFIG.dominio}&dark_theme=1`;
             document.getElementById('chat-iframe').src = chatUrl;
 
-            // Iniciar Player con Aspect Ratio Variable
             const player = new Plyr('#player', {
                 autoplay: true,
+                controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
                 youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
             });
 
-            // Fix de responsividad para anuncios (recarga si el contenedor es muy pequeño)
             window.addEventListener('resize', () => {
                 const adTop = document.getElementById('ad-container-top');
                 if (window.innerWidth < 768) adTop.style.transform = `scale(${window.innerWidth / 800})`;
