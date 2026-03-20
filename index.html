@@ -15,26 +15,20 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Manrope', 'sans-serif'] },
-                    colors: {
-                        obsidian: '#050505',
-                        panel: '#0e0e0e',
-                        accent: '#ffffff',
-                        muted: '#a1a1aa'
-                    }
+                    colors: { obsidian: '#050505', panel: '#0e0e0e', accent: '#ffffff', muted: '#a1a1aa' }
                 }
             }
         }
     </script>
 
     <style>
-        /* Estilos Refinados y Minimalistas */
         body {
             background-color: #050505;
             color: #ffffff;
             overflow-x: hidden;
+            padding-bottom: 70px;
         }
 
-        /* Scrollbar invisible pero funcional para un look limpio */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -52,13 +46,17 @@
             background: #3f3f46;
         }
 
-        /* Efecto Cristal Esmerilado Premium */
         .glass-premium {
-            background: rgba(14, 14, 14, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            background: rgba(14, 14, 14, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .btn-primary {
@@ -85,7 +83,6 @@
             border-color: rgba(255, 255, 255, 0.2);
         }
 
-        /* Animación suave para el indicador en vivo */
         .live-dot {
             width: 8px;
             height: 8px;
@@ -109,17 +106,16 @@
             }
         }
 
-        /* Transición de contenido dinámico */
         .fade-transition {
             transition: opacity 0.4s ease-in-out;
         }
     </style>
 </head>
 
-<body class="flex flex-col min-h-screen">
+<body class="flex flex-col min-h-screen relative">
 
     <div id="ad-overlay"
-        class="hidden fixed inset-0 z-[9999] bg-obsidian/95 backdrop-blur-xl flex flex-col justify-center items-center transition-opacity duration-300">
+        class="hidden fixed inset-0 z-[9000] bg-obsidian/95 backdrop-blur-xl flex flex-col justify-center items-center transition-opacity duration-300 px-4">
 
         <div class="absolute top-0 left-0 w-full h-[2px] bg-white/5">
             <div id="ad-progress"
@@ -127,50 +123,89 @@
         </div>
 
         <div
-            class="w-full max-w-sm glass-premium rounded-2xl p-6 flex flex-col items-center gap-6 text-center transform scale-95 animate-[popIn_0.4s_ease-out_forwards]">
-
-            <h3 class="text-muted text-[10px] font-bold uppercase tracking-[0.2em] letter-spacing">Presentado por</h3>
+            class="w-full max-w-sm glass-premium rounded-3xl p-5 flex flex-col items-center gap-4 text-center transform scale-95 transition-transform duration-300">
+            <span class="text-[10px] text-muted uppercase tracking-[0.2em] font-bold">Patrocinador del Stream</span>
 
             <div
-                class="w-full bg-black rounded-xl overflow-hidden flex justify-center min-h-[90px] border border-white/5 shadow-inner">
-                <script>
-                    var atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
-                </script>
+                class="w-full bg-black rounded-xl overflow-hidden flex justify-center items-center min-h-[90px] border border-white/5 shadow-inner">
+                <script> var atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} }; </script>
                 <script src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
             </div>
 
-            <div class="bg-black/30 border border-white/5 rounded-xl p-5 w-full relative overflow-hidden">
-                <div class="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-50"></div>
+            <div class="glass-card rounded-2xl p-4 w-full relative flex flex-col items-center gap-3">
+                <p class="text-sm font-semibold">Mientras esperas...</p>
+                <p class="text-xs text-muted">Apoya nuestro stream visitando a nuestros patrocinadores o descubre una
+                    nueva canción recomendada.</p>
 
-                <span id="trivia-title"
-                    class="text-[11px] text-muted mb-2 block uppercase tracking-wider font-semibold">Cargando
-                    datos...</span>
-
-                <p id="trivia-text"
-                    class="text-sm font-medium text-white min-h-[70px] flex items-center justify-center fade-transition leading-relaxed">
-                    Preparando experiencia...
-                </p>
-
-                <button onclick="fetchDynamicContent()"
-                    class="mt-4 text-xs btn-secondary px-4 py-2 rounded-lg font-semibold w-full flex justify-center items-center gap-2">
-                    <span>Siguiente Dato</span>
-                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                <button onclick="openTrackPopup()"
+                    class="w-full btn-primary font-bold py-2.5 rounded-xl shadow-[0_0_15px_rgba(255,255,255,0.1)] text-xs tracking-wide flex justify-center items-center gap-2">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z" />
                     </svg>
+                    Escuchar recomendación
                 </button>
             </div>
 
             <a href="https://www.profitablecpmratenetwork.com/vmp3cgn8?key=46bb8d81acf6d6906ee10c6d34587506"
-                target="_blank" class="w-full btn-primary font-bold py-3.5 rounded-xl shadow-lg text-sm tracking-wide">
-                Desbloquear Contenido VIP
+                target="_blank" class="w-full btn-secondary font-bold py-3 rounded-xl text-sm tracking-wide">
+                Visitar Patrocinador
             </a>
 
             <button id="skip-btn"
-                class="text-xs font-semibold text-muted hover:text-white transition px-4 py-2 opacity-50 cursor-not-allowed uppercase tracking-wide"
+                class="text-[11px] font-bold text-muted hover:text-white transition px-4 py-2 opacity-50 cursor-not-allowed uppercase tracking-widest mt-1"
                 disabled>
                 Stream en 10s...
             </button>
+        </div>
+    </div>
+
+    <div id="track-popup"
+        class="hidden fixed inset-0 z-[9999] bg-obsidian/90 backdrop-blur-md flex justify-center items-center px-4 transition-opacity duration-300">
+        <div
+            class="glass-premium w-full max-w-sm rounded-3xl p-6 flex flex-col gap-5 relative transform scale-95 transition-transform duration-300 border border-white/10 shadow-2xl">
+
+            <button onclick="closeTrackPopup()"
+                class="absolute top-4 right-4 text-muted hover:text-white transition bg-white/5 rounded-full w-8 h-8 flex items-center justify-center">✕</button>
+
+            <div class="text-center mt-2">
+                <span class="text-[10px] text-accent uppercase tracking-[0.2em] font-bold">Selección del DJ</span>
+                <p class="text-sm text-muted mt-1">Escucha la previa en Spotify</p>
+            </div>
+
+            <div class="w-full shadow-lg rounded-xl overflow-hidden">
+                <iframe id="popup-spotify-player" style="border-radius:12px" src="" width="100%" height="152"
+                    frameBorder="0" allowfullscreen=""
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"></iframe>
+            </div>
+
+            <div
+                class="w-full bg-black rounded-xl overflow-hidden flex justify-center items-center border border-white/5 min-h-[90px]">
+                <script> var atOptions = { 'key': 'a9007e74934380b8f4e3f0f4e3213262', 'format': 'iframe', 'height': 60, 'width': 468, 'params': {} }; </script>
+                <script src="https://www.highperformanceformat.com/a9007e74934380b8f4e3f0f4e3213262/invoke.js"></script>
+            </div>
+
+            <a href="https://www.profitablecpmratenetwork.com/vmp3cgn8?key=46bb8d81acf6d6906ee10c6d34587506"
+                target="_blank" class="w-full btn-primary text-center font-bold py-3 rounded-xl text-sm tracking-wide">
+                Apoyar y ver ofertas
+            </a>
+        </div>
+    </div>
+
+    <div id="toast-notification"
+        class="fixed bottom-24 right-4 z-[8000] translate-x-[150%] transition-transform duration-500 max-w-xs">
+        <div onclick="openTrackPopup()"
+            class="glass-premium rounded-xl p-4 flex items-center gap-4 shadow-2xl border border-white/10 hover:bg-white/5 transition cursor-pointer">
+            <div
+                class="w-10 h-10 rounded-full bg-gradient-to-tr from-green-500 to-green-700 flex items-center justify-center flex-shrink-0 shadow-lg">
+                <svg class="w-4 h-4 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                </svg>
+            </div>
+            <div>
+                <p class="text-[11px] text-muted uppercase tracking-wider font-bold mb-0.5">Sugerencia</p>
+                <p class="text-sm font-semibold text-white">Escucha este track recomendado</p>
+            </div>
         </div>
     </div>
 
@@ -178,19 +213,15 @@
         <div class="flex items-center gap-4">
             <div
                 class="w-9 h-9 rounded-xl bg-white flex items-center justify-center font-bold text-black text-sm shadow-[0_0_15px_rgba(255,255,255,0.2)]">
-                TM
-            </div>
+                TM</div>
             <h1 class="font-extrabold text-xl tracking-tighter hidden sm:block">TUGA<span
                     class="font-normal text-muted">MUSIC</span></h1>
         </div>
-
         <div class="flex items-center gap-4">
             <a href="https://www.profitablecpmratenetwork.com/vmp3cgn8?key=46bb8d81acf6d6906ee10c6d34587506"
                 target="_blank"
-                class="hidden md:flex btn-secondary px-5 py-2 rounded-lg text-xs font-bold tracking-wide">
-                Apoyar Canal
-            </a>
-
+                class="hidden md:flex btn-secondary px-5 py-2 rounded-lg text-xs font-bold tracking-wide">Apoyar
+                Canal</a>
             <div class="flex items-center gap-2 bg-red-500/10 px-3 py-1.5 rounded-lg border border-red-500/20">
                 <div class="live-dot"></div>
                 <span class="text-[10px] font-bold text-red-500 uppercase tracking-widest">En Vivo</span>
@@ -199,26 +230,21 @@
     </header>
 
     <div class="w-full flex justify-center bg-panel py-3 border-b border-white/5 overflow-hidden">
-        <script>
-            var atOptions = { 'key': 'a9007e74934380b8f4e3f0f4e3213262', 'format': 'iframe', 'height': 60, 'width': 468, 'params': {} };
-        </script>
+        <script> var atOptions = { 'key': 'a9007e74934380b8f4e3f0f4e3213262', 'format': 'iframe', 'height': 60, 'width': 468, 'params': {} }; </script>
         <script src="https://www.highperformanceformat.com/a9007e74934380b8f4e3f0f4e3213262/invoke.js"></script>
     </div>
 
     <main class="flex-1 max-w-[1800px] w-full mx-auto p-0 lg:p-6 flex flex-col lg:flex-row gap-0 lg:gap-6 mb-8">
-
         <section class="flex-1 flex flex-col min-w-0">
             <div class="w-full bg-black lg:rounded-2xl overflow-hidden shadow-2xl relative border border-white/5">
                 <div class="aspect-video">
                     <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="Hot4ZU7QJn8"></div>
                 </div>
             </div>
-
             <div class="p-5 lg:p-2 lg:mt-6">
-                <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Live DJ Set - 24/7 Electronic</h2>
+                <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Live DJ Set - Electronic</h2>
                 <p class="text-sm text-muted mt-2 font-medium">Transmisión ininterrumpida de alta fidelidad.</p>
             </div>
-
             <div class="mt-6 mx-5 lg:mx-0 p-5 glass-premium rounded-2xl">
                 <p class="text-[10px] text-muted mb-3 uppercase tracking-[0.2em] font-bold">Patrocinado</p>
                 <script async="async" data-cfasync="false"
@@ -229,156 +255,101 @@
 
         <aside
             class="w-full lg:w-[400px] xl:w-[450px] flex flex-col gap-6 mt-6 lg:mt-0 px-5 lg:px-0 h-[650px] lg:h-[calc(100vh-160px)]">
-
             <div
                 class="flex-1 bg-panel lg:rounded-2xl border border-white/5 overflow-hidden flex flex-col shadow-2xl relative">
                 <div
                     class="p-4 border-b border-white/5 flex justify-between items-center bg-black/40 backdrop-blur-md absolute top-0 w-full z-10">
                     <span class="font-bold text-sm tracking-wide">Live Chat</span>
-                    <span class="text-[10px] btn-secondary px-2 py-1 rounded uppercase tracking-wider">Normas</span>
                 </div>
                 <div class="pt-14 h-full w-full">
                     <iframe id="chat-iframe" class="w-full h-full border-none bg-transparent"></iframe>
                 </div>
             </div>
-
             <div class="hidden md:flex justify-center glass-premium rounded-2xl p-4 items-center min-h-[300px]">
-                <script>
-                    var atOptions = { 'key': '155282ebb193f0f3cfce7f418a22d357', 'format': 'iframe', 'height': 300, 'width': 160, 'params': {} };
-                </script>
+                <script> var atOptions = { 'key': '155282ebb193f0f3cfce7f418a22d357', 'format': 'iframe', 'height': 300, 'width': 160, 'params': {} }; </script>
                 <script src="https://www.highperformanceformat.com/155282ebb193f0f3cfce7f418a22d357/invoke.js"></script>
             </div>
-
         </aside>
     </main>
 
-    <footer class="glass-premium mt-auto w-full py-10 flex flex-col items-center gap-8 z-30 border-t-0">
-
-        <div class="w-full flex justify-center items-center overflow-hidden px-4">
-            <div class="hidden md:block min-h-[90px] rounded-xl overflow-hidden border border-white/5">
-                <script>
-                    var atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
-                </script>
-                <script src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
-            </div>
-            <div class="block md:hidden min-h-[60px] rounded-xl overflow-hidden border border-white/5">
-                <script>
-                    var atOptions = { 'key': 'a9007e74934380b8f4e3f0f4e3213262', 'format': 'iframe', 'height': 60, 'width': 468, 'params': {} };
-                </script>
-                <script src="https://www.highperformanceformat.com/a9007e74934380b8f4e3f0f4e3213262/invoke.js"></script>
-            </div>
+    <div
+        class="fixed bottom-0 left-0 w-full glass-premium border-t border-white/10 flex justify-center items-center py-2 z-[9000]">
+        <div class="block md:hidden">
+            <script> var atOptions = { 'key': 'a9007e74934380b8f4e3f0f4e3213262', 'format': 'iframe', 'height': 60, 'width': 468, 'params': {} }; </script>
+            <script src="https://www.highperformanceformat.com/a9007e74934380b8f4e3f0f4e3213262/invoke.js"></script>
         </div>
-
-        <div
-            class="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 px-6 text-xs font-bold uppercase tracking-widest text-muted">
-            <a href="#" class="hover:text-white transition">Términos</a>
-            <a href="#" class="hover:text-white transition">Privacidad</a>
-            <a href="#" class="hover:text-white transition">Contacto</a>
-            <span class="text-white/10 hidden sm:block">|</span>
-            <a href="https://www.profitablecpmratenetwork.com/vmp3cgn8?key=46bb8d81acf6d6906ee10c6d34587506"
-                target="_blank"
-                class="text-white hover:text-gray-300 transition flex items-center gap-2 btn-secondary px-4 py-2 rounded-lg">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
-                    </path>
-                </svg>
-                Experiencia VIP
-            </a>
+        <div class="hidden md:block">
+            <script> var atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} }; </script>
+            <script src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
         </div>
-
-        <p class="text-[10px] text-muted font-medium tracking-widest uppercase">© 2026 TUGAMUSIC. Plataforma
-            independiente.</p>
-    </footer>
+    </div>
 
     <script src="https://pl28947868.profitablecpmratenetwork.com/9b/9d/97/9b9d9741195af037933a25e640c30102.js"></script>
     <script src="https://pl28947874.profitablecpmratenetwork.com/6e/ed/f9/6eedf9ea550cd546c8c210aafa3c5f87.js"></script>
-
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
 
     <script>
-        // INICIALIZACIÓN DE PLYR
-        const player = new Plyr('#player', {
-            autoplay: true,
-            muted: false,
-            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen']
-        });
+        const player = new Plyr('#player', { autoplay: true, muted: false, controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'] });
 
-        // CHAT DE YOUTUBE
         const videoId = "Hot4ZU7QJn8";
         const domain = location.hostname || "localhost";
         document.getElementById('chat-iframe').src = `https://www.youtube.com/live_chat?v=${videoId}&embed_domain=${domain}&dark_theme=1`;
 
         // =========================================================
-        // 🚀 MOTOR DE CONTENIDO DINÁMICO (API Wikipedia + Trivia)
+        // 🚀 LÓGICA DEL POPUP DE SPOTIFY (VALOR REAL)
         // =========================================================
-
-        const musicFacts = [
-            "El audio digital estándar (CD) usa una frecuencia de 44.1 kHz porque matemáticamente cubre el rango auditivo humano.",
-            "La icónica caja de ritmos Roland TR-808 fue un fracaso en ventas al lanzarse, pero hoy define el sonido moderno.",
-            "El primer archivo MP3 de la historia fue la canción 'Tom's Diner' de Suzanne Vega.",
-            "Los vinilos están superando a los CDs en ventas a nivel mundial por primera vez desde 1987.",
-            "Un tempo de 128 BPM (muy común en música House) sincroniza naturalmente con el latido del corazón acelerado."
+        // IDs reales de canciones épicas de electrónica
+        const spotifyTracks = [
+            "0Oqc0kKFsQ6MhFOLBNZIGX", // Daft Punk - One More Time
+            "2vSXraJBN52k5QjFnjUqM0", // David Guetta - Titanium
+            "5vkFlDDCF43hZ2m0L61Z8g", // Avicii - Levels
+            "2EGz0V0w7hP2EwYIt8aB3C", // Tiësto - The Business
+            "4awmWP1g71QeE5uT0wEniS"  // Skrillex - Bangarang
         ];
 
-        async function fetchDynamicContent() {
-            const titleEl = document.getElementById("trivia-title");
-            const textEl = document.getElementById("trivia-text");
+        function openTrackPopup() {
+            const popup = document.getElementById('track-popup');
+            const iframe = document.getElementById('popup-spotify-player');
 
-            // Animación de salida
-            textEl.style.opacity = 0;
+            // Elegir track aleatorio y cargar iframe
+            const trackId = spotifyTracks[Math.floor(Math.random() * spotifyTracks.length)];
+            iframe.src = `https://open.spotify.com/embed/track/${trackId}?utm_source=generator&theme=0`;
 
-            setTimeout(async () => {
-                // Elegir aleatoriamente entre Historia (Wikipedia) o Curiosidad
-                const isHistory = Math.random() > 0.5;
+            // Ocultar overlay principal si estaba abierto, y ocultar el toast
+            document.getElementById('ad-overlay').classList.add('hidden');
+            document.getElementById('toast-notification').classList.add('translate-x-[150%]');
 
-                if (isHistory) {
-                    try {
-                        // Obtener fecha actual para consultar API
-                        const date = new Date();
-                        const month = String(date.getMonth() + 1).padStart(2, '0');
-                        const day = String(date.getDate()).padStart(2, '0');
+            // Mostrar el modal
+            popup.classList.remove('hidden');
+        }
 
-                        // Consumo real de la API de Wikipedia
-                        const res = await fetch(`https://es.wikipedia.org/api/rest_v1/feed/onthisday/events/${month}/${day}`);
-                        const data = await res.json();
+        function closeTrackPopup() {
+            const popup = document.getElementById('track-popup');
+            const iframe = document.getElementById('popup-spotify-player');
 
-                        // Extraer un evento aleatorio de los últimos 15
-                        const event = data.events[Math.floor(Math.random() * Math.min(15, data.events.length))];
-
-                        titleEl.innerText = "🏛️ Un Día Como Hoy";
-                        textEl.innerText = `En el año ${event.year}: ${event.text}`;
-                    } catch (e) {
-                        // Fallback si la API falla
-                        titleEl.innerText = "🎧 Dato Premium";
-                        textEl.innerText = musicFacts[Math.floor(Math.random() * musicFacts.length)];
-                    }
-                } else {
-                    titleEl.innerText = "💡 ¿Sabías Que...?";
-                    textEl.innerText = musicFacts[Math.floor(Math.random() * musicFacts.length)];
-                }
-
-                // Animación de entrada
-                textEl.style.opacity = 1;
-            }, 300);
+            popup.classList.add('hidden');
+            // Limpiar src para apagar la música de Spotify
+            setTimeout(() => { iframe.src = ""; }, 300);
         }
 
         // =========================================================
-        // LÓGICA DEL OVERLAY DE PUBLICIDAD
+        // LÓGICA DEL OVERLAY DE PAUSA
         // =========================================================
         function triggerOverlay() {
+            // Si el popup de la canción está abierto, no interrumpimos con el overlay general
+            if (!document.getElementById('track-popup').classList.contains('hidden')) return;
+
             const overlay = document.getElementById("ad-overlay");
             const btn = document.getElementById("skip-btn");
             const progress = document.getElementById("ad-progress");
 
-            fetchDynamicContent(); // Cargar datos al instante
             overlay.classList.remove("hidden");
 
             let totalTime = 10;
             let timeLeft = totalTime;
 
             btn.disabled = true;
-            btn.classList.add("opacity-50", "cursor-not-allowed", "text-muted");
+            btn.classList.add("opacity-50", "cursor-not-allowed");
             btn.classList.remove("btn-secondary", "text-white");
 
             const interval = setInterval(() => {
@@ -386,14 +357,12 @@
                 progress.style.width = ((totalTime - timeLeft) / totalTime * 100) + "%";
 
                 if (timeLeft > 0) {
-                    btn.innerText = `Stream en ${timeLeft}s...`;
+                    btn.innerText = `Cargando Stream (${timeLeft}s)`;
                 } else {
                     clearInterval(interval);
-                    btn.innerText = "Ir a la Transmisión";
+                    btn.innerText = "Cerrar Panel";
                     btn.disabled = false;
-
-                    // Estilizar botón cuando está listo
-                    btn.classList.remove("opacity-50", "cursor-not-allowed", "text-muted");
+                    btn.classList.remove("opacity-50", "cursor-not-allowed");
                     btn.classList.add("btn-secondary", "text-white", "rounded-lg");
 
                     btn.onclick = () => {
@@ -404,20 +373,41 @@
             }, 1000);
         }
 
-        // Ejecución inicial y recurrente (cada 5 min)
         setTimeout(triggerOverlay, 3000);
-        setInterval(triggerOverlay, 300000);
+        setInterval(triggerOverlay, 300000); // Cada 5 mins
 
-        // REFRESCO PASIVO DE BANNERS (Máxima monetización sin molestar)
+        // =========================================================
+        // NOTIFICACIÓN TOAST (Sugerencia)
+        // =========================================================
+        function showToast() {
+            // No mostrar si el popup de canción ya está abierto
+            if (!document.getElementById('track-popup').classList.contains('hidden')) return;
+
+            const toast = document.getElementById('toast-notification');
+            toast.classList.remove('translate-x-[150%]');
+
+            setTimeout(() => {
+                toast.classList.add('translate-x-[150%]');
+            }, 8000);
+        }
+
+        setTimeout(() => {
+            showToast();
+            setInterval(showToast, 120000);
+        }, 45000);
+
+        // =========================================================
+        // REFRESCO PASIVO DE BANNERS
+        // =========================================================
         setInterval(() => {
             document.querySelectorAll("iframe").forEach(el => {
-                if (el.src.includes("highperformanceformat")) {
+                if (el.src.includes("highperformanceformat") && !el.closest('.hidden')) {
                     let currentSrc = el.src;
                     el.src = '';
                     setTimeout(() => el.src = currentSrc, 150);
                 }
             });
-        }, 45000);
+        }, 35000);
 
     </script>
 </body>
