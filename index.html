@@ -3,226 +3,423 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TUGAMUSIC LIVE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TUGAMUSIC LIVE | Premium Electronic Stream</title>
 
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 
-</head>
-
-<body class="bg-[#050505] text-white font-sans">
-
-    <!-- 🔥 OVERLAY PRO -->
-    <div id="ad-overlay" class="hidden fixed inset-0 z-[9999] bg-black/95 flex flex-col">
-
-        <!-- PROGRESS -->
-        <div class="h-[3px] bg-white/10">
-            <div id="ad-progress" class="h-full bg-blue-500 w-0"></div>
-        </div>
-
-        <div class="flex-1 flex flex-col items-center justify-center gap-6 px-4">
-
-            <!-- ANUNCIO -->
-            <div class="bg-black rounded-xl p-2 shadow-lg">
-                <script>
-                    var atOptions_overlay = {
-                        key: 'abd4e21740531b9926241f7933675a40',
-                        format: 'iframe',
-                        height: 250,
-                        width: 300
-                    };
-                </script>
-                <script src="//www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
-            </div>
-
-            <!-- CONTENIDO -->
-            <div id="dynamic-content"
-                class="bg-white/5 border border-white/10 rounded-xl p-4 max-w-md text-center cursor-pointer hover:bg-white/10 transition-all duration-300">
-
-                <p class="text-xs text-gray-400">Cargando contenido...</p>
-            </div>
-
-            <!-- SKIP -->
-            <button id="skip-btn" class="text-xs px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition">
-                OMITIR EN 7
-            </button>
-
-        </div>
-    </div>
-
-    <!-- HEADER -->
-    <header class="flex justify-between items-center px-4 py-3 bg-black/70 backdrop-blur border-b border-white/5">
-        <h1 class="font-bold text-sm tracking-wide">TUGAMUSIC LIVE</h1>
-        <span class="text-xs text-red-500">● EN VIVO</span>
-    </header>
-
-    <!-- MAIN -->
-    <main class="max-w-4xl mx-auto px-3 py-4 space-y-4">
-
-        <!-- VIDEO -->
-        <div class="rounded-xl overflow-hidden bg-black">
-            <div class="aspect-video">
-                <div id="player" class="w-full h-full" data-plyr-provider="youtube" data-plyr-embed-id="Hot4ZU7QJn8">
-                </div>
-            </div>
-        </div>
-
-        <!-- INFO -->
-        <div class="px-1">
-            <h2 class="text-base font-semibold">Nu-Disco vs House</h2>
-            <p class="text-xs text-gray-400">Live DJ Set</p>
-        </div>
-
-        <!-- CHAT -->
-        <div class="h-[380px] md:h-[500px] rounded-xl overflow-hidden border border-white/10">
-            <iframe id="chat-iframe" class="w-full h-full"></iframe>
-        </div>
-
-        <!-- BANNER -->
-        <div class="flex justify-center">
-            <script>
-                var atOptions_1 = {
-                    key: '155282ebb193f0f3cfce7f418a22d357',
-                    format: 'iframe',
-                    height: 90,
-                    width: 728
-                };
-            </script>
-            <script src="//www.highperformanceformat.com/155282ebb193f0f3cfce7f418a22d357/invoke.js"></script>
-        </div>
-
-    </main>
-
-    <!-- FLOAT -->
-    <div class="fixed bottom-2 left-1/2 -translate-x-1/2">
-        <script>
-            var atOptions_2 = {
-                key: 'a9007e74934380b8f4e3f0f4e3213262',
-                format: 'iframe',
-                height: 60,
-                width: 468
-            };
-        </script>
-        <script src="//www.highperformanceformat.com/a9007e74934380b8f4e3f0f4e3213262/invoke.js"></script>
-    </div>
-
-    <!-- LIBS -->
-    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
-
-    <!-- POP -->
-    <script src="https://pl28947868.profitablecpmratenetwork.com/9b/9d/97/9b9d9741195af037933a25e640c30102.js"></script>
-
-    <!-- SOCIAL -->
-    <script src="https://pl28947874.profitablecpmratenetwork.com/6e/ed/f9/6eedf9ea550cd546c8c210aafa3c5f87.js"></script>
-
-    <!-- NATIVE -->
-    <script async
-        src="https://pl28947871.profitablecpmratenetwork.com/dd78d8a9eddd3fe0003951375e67c19c/invoke.js"></script>
-
     <script>
-
-        // PLAYER
-        new Plyr('#player', { autoplay: true });
-
-        // CHAT
-        document.getElementById('chat-iframe').src =
-            `https://www.youtube.com/live_chat?v=Hot4ZU7QJn8&embed_domain=${location.hostname}&dark_theme=1`;
-
-        // =======================
-        // 🧠 CONTENIDO DINÁMICO
-        // =======================
-
-        const smartlink = "https://www.profitablecpmratenetwork.com/vmp3cgn8?key=46bb8d81acf6d6906ee10c6d34587506";
-
-        const tips = [
-            "🎧 Tip: Usa EQ para evitar saturación",
-            "🔥 Menos capas = mejor mezcla",
-            "📀 Un buen drop necesita silencio antes",
-            "🚀 Próximamente en TUGAONE contenido exclusivo",
-            "🎛️ Mezclar no es volumen, es balance"
-        ];
-
-        const artists = ["Daft Punk", "Avicii", "Calvin Harris", "David Guetta"];
-
-        async function loadContent() {
-            const el = document.getElementById("dynamic-content");
-            const random = Math.random();
-
-            if (random < 0.6) {
-                const artist = artists[Math.floor(Math.random() * artists.length)];
-
-                try {
-                    const res = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${artist}`);
-                    const data = await res.json();
-
-                    el.innerHTML = `
-                <p class="font-bold text-sm mb-1">${data.title}</p>
-                <p class="text-xs text-gray-400">${data.extract.substring(0, 120)}...</p>
-                <p class="text-[10px] text-blue-400 mt-2">Toca para explorar</p>
-            `;
-                } catch {
-                    fallback(el);
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Manrope', 'sans-serif'] },
+                    colors: {
+                        obsidian: '#050505',
+                        panel: '#0e0e0e',
+                        accent: '#ffffff',
+                        muted: '#a1a1aa'
+                    }
                 }
-            } else {
-                fallback(el);
+            }
+        }
+    </script>
+
+    <style>
+        /* Estilos Refinados y Minimalistas */
+        body {
+            background-color: #050505;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Scrollbar invisible pero funcional para un look limpio */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #27272a;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3f3f46;
+        }
+
+        /* Efecto Cristal Esmerilado Premium */
+        .glass-premium {
+            background: rgba(14, 14, 14, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-primary {
+            background-color: #ffffff;
+            color: #000000;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: #e4e4e7;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 25px -5px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Animación suave para el indicador en vivo */
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #ef4444;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #ef4444;
+            animation: breathe 2.5s infinite ease-in-out;
+        }
+
+        @keyframes breathe {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
             }
 
-            el.onclick = () => window.open(smartlink, "_blank");
+            50% {
+                opacity: 0.5;
+                transform: scale(0.8);
+            }
         }
 
-        function fallback(el) {
-            const tip = tips[Math.floor(Math.random() * tips.length)];
-            el.innerHTML = `
-        <p class="text-sm">${tip}</p>
-        <p class="text-[10px] text-blue-400 mt-2">Ver más</p>
-    `;
+        /* Transición de contenido dinámico */
+        .fade-transition {
+            transition: opacity 0.4s ease-in-out;
+        }
+    </style>
+</head>
+
+<body class="flex flex-col min-h-screen">
+
+    <div id="ad-overlay"
+        class="hidden fixed inset-0 z-[9999] bg-obsidian/95 backdrop-blur-xl flex flex-col justify-center items-center transition-opacity duration-300">
+
+        <div class="absolute top-0 left-0 w-full h-[2px] bg-white/5">
+            <div id="ad-progress"
+                class="h-full bg-accent w-0 transition-all duration-1000 ease-linear shadow-[0_0_10px_#fff]"></div>
+        </div>
+
+        <div
+            class="w-full max-w-sm glass-premium rounded-2xl p-6 flex flex-col items-center gap-6 text-center transform scale-95 animate-[popIn_0.4s_ease-out_forwards]">
+
+            <h3 class="text-muted text-[10px] font-bold uppercase tracking-[0.2em] letter-spacing">Presentado por</h3>
+
+            <div
+                class="w-full bg-black rounded-xl overflow-hidden flex justify-center min-h-[90px] border border-white/5 shadow-inner">
+                <script>
+                    var atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
+                </script>
+                <script src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
+            </div>
+
+            <div class="bg-black/30 border border-white/5 rounded-xl p-5 w-full relative overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-50"></div>
+
+                <span id="trivia-title"
+                    class="text-[11px] text-muted mb-2 block uppercase tracking-wider font-semibold">Cargando
+                    datos...</span>
+
+                <p id="trivia-text"
+                    class="text-sm font-medium text-white min-h-[70px] flex items-center justify-center fade-transition leading-relaxed">
+                    Preparando experiencia...
+                </p>
+
+                <button onclick="fetchDynamicContent()"
+                    class="mt-4 text-xs btn-secondary px-4 py-2 rounded-lg font-semibold w-full flex justify-center items-center gap-2">
+                    <span>Siguiente Dato</span>
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <a href="https://www.profitablecpmratenetwork.com/vmp3cgn8?key=46bb8d81acf6d6906ee10c6d34587506"
+                target="_blank" class="w-full btn-primary font-bold py-3.5 rounded-xl shadow-lg text-sm tracking-wide">
+                Desbloquear Contenido VIP
+            </a>
+
+            <button id="skip-btn"
+                class="text-xs font-semibold text-muted hover:text-white transition px-4 py-2 opacity-50 cursor-not-allowed uppercase tracking-wide"
+                disabled>
+                Stream en 10s...
+            </button>
+        </div>
+    </div>
+
+    <header class="glass-premium sticky top-0 z-40 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-4">
+            <div
+                class="w-9 h-9 rounded-xl bg-white flex items-center justify-center font-bold text-black text-sm shadow-[0_0_15px_rgba(255,255,255,0.2)]">
+                TM
+            </div>
+            <h1 class="font-extrabold text-xl tracking-tighter hidden sm:block">TUGA<span
+                    class="font-normal text-muted">MUSIC</span></h1>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <a href="https://www.profitablecpmratenetwork.com/vmp3cgn8?key=46bb8d81acf6d6906ee10c6d34587506"
+                target="_blank"
+                class="hidden md:flex btn-secondary px-5 py-2 rounded-lg text-xs font-bold tracking-wide">
+                Apoyar Canal
+            </a>
+
+            <div class="flex items-center gap-2 bg-red-500/10 px-3 py-1.5 rounded-lg border border-red-500/20">
+                <div class="live-dot"></div>
+                <span class="text-[10px] font-bold text-red-500 uppercase tracking-widest">En Vivo</span>
+            </div>
+        </div>
+    </header>
+
+    <div class="w-full flex justify-center bg-panel py-3 border-b border-white/5 overflow-hidden">
+        <script>
+            var atOptions = { 'key': 'a9007e74934380b8f4e3f0f4e3213262', 'format': 'iframe', 'height': 60, 'width': 468, 'params': {} };
+        </script>
+        <script src="https://www.highperformanceformat.com/a9007e74934380b8f4e3f0f4e3213262/invoke.js"></script>
+    </div>
+
+    <main class="flex-1 max-w-[1800px] w-full mx-auto p-0 lg:p-6 flex flex-col lg:flex-row gap-0 lg:gap-6 mb-8">
+
+        <section class="flex-1 flex flex-col min-w-0">
+            <div class="w-full bg-black lg:rounded-2xl overflow-hidden shadow-2xl relative border border-white/5">
+                <div class="aspect-video">
+                    <div id="player" data-plyr-provider="youtube" data-plyr-embed-id="Hot4ZU7QJn8"></div>
+                </div>
+            </div>
+
+            <div class="p-5 lg:p-2 lg:mt-6">
+                <h2 class="text-2xl md:text-3xl font-extrabold tracking-tight">Live DJ Set - 24/7 Electronic</h2>
+                <p class="text-sm text-muted mt-2 font-medium">Transmisión ininterrumpida de alta fidelidad.</p>
+            </div>
+
+            <div class="mt-6 mx-5 lg:mx-0 p-5 glass-premium rounded-2xl">
+                <p class="text-[10px] text-muted mb-3 uppercase tracking-[0.2em] font-bold">Patrocinado</p>
+                <script async="async" data-cfasync="false"
+                    src="https://pl28947871.profitablecpmratenetwork.com/dd78d8a9eddd3fe0003951375e67c19c/invoke.js"></script>
+                <div id="container-dd78d8a9eddd3fe0003951375e67c19c"></div>
+            </div>
+        </section>
+
+        <aside
+            class="w-full lg:w-[400px] xl:w-[450px] flex flex-col gap-6 mt-6 lg:mt-0 px-5 lg:px-0 h-[650px] lg:h-[calc(100vh-160px)]">
+
+            <div
+                class="flex-1 bg-panel lg:rounded-2xl border border-white/5 overflow-hidden flex flex-col shadow-2xl relative">
+                <div
+                    class="p-4 border-b border-white/5 flex justify-between items-center bg-black/40 backdrop-blur-md absolute top-0 w-full z-10">
+                    <span class="font-bold text-sm tracking-wide">Live Chat</span>
+                    <span class="text-[10px] btn-secondary px-2 py-1 rounded uppercase tracking-wider">Normas</span>
+                </div>
+                <div class="pt-14 h-full w-full">
+                    <iframe id="chat-iframe" class="w-full h-full border-none bg-transparent"></iframe>
+                </div>
+            </div>
+
+            <div class="hidden md:flex justify-center glass-premium rounded-2xl p-4 items-center min-h-[300px]">
+                <script>
+                    var atOptions = { 'key': '155282ebb193f0f3cfce7f418a22d357', 'format': 'iframe', 'height': 300, 'width': 160, 'params': {} };
+                </script>
+                <script src="https://www.highperformanceformat.com/155282ebb193f0f3cfce7f418a22d357/invoke.js"></script>
+            </div>
+
+        </aside>
+    </main>
+
+    <footer class="glass-premium mt-auto w-full py-10 flex flex-col items-center gap-8 z-30 border-t-0">
+
+        <div class="w-full flex justify-center items-center overflow-hidden px-4">
+            <div class="hidden md:block min-h-[90px] rounded-xl overflow-hidden border border-white/5">
+                <script>
+                    var atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
+                </script>
+                <script src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
+            </div>
+            <div class="block md:hidden min-h-[60px] rounded-xl overflow-hidden border border-white/5">
+                <script>
+                    var atOptions = { 'key': 'a9007e74934380b8f4e3f0f4e3213262', 'format': 'iframe', 'height': 60, 'width': 468, 'params': {} };
+                </script>
+                <script src="https://www.highperformanceformat.com/a9007e74934380b8f4e3f0f4e3213262/invoke.js"></script>
+            </div>
+        </div>
+
+        <div
+            class="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 px-6 text-xs font-bold uppercase tracking-widest text-muted">
+            <a href="#" class="hover:text-white transition">Términos</a>
+            <a href="#" class="hover:text-white transition">Privacidad</a>
+            <a href="#" class="hover:text-white transition">Contacto</a>
+            <span class="text-white/10 hidden sm:block">|</span>
+            <a href="https://www.profitablecpmratenetwork.com/vmp3cgn8?key=46bb8d81acf6d6906ee10c6d34587506"
+                target="_blank"
+                class="text-white hover:text-gray-300 transition flex items-center gap-2 btn-secondary px-4 py-2 rounded-lg">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z">
+                    </path>
+                </svg>
+                Experiencia VIP
+            </a>
+        </div>
+
+        <p class="text-[10px] text-muted font-medium tracking-widest uppercase">© 2026 TUGAMUSIC. Plataforma
+            independiente.</p>
+    </footer>
+
+    <script src="https://pl28947868.profitablecpmratenetwork.com/9b/9d/97/9b9d9741195af037933a25e640c30102.js"></script>
+    <script src="https://pl28947874.profitablecpmratenetwork.com/6e/ed/f9/6eedf9ea550cd546c8c210aafa3c5f87.js"></script>
+
+    <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+
+    <script>
+        // INICIALIZACIÓN DE PLYR
+        const player = new Plyr('#player', {
+            autoplay: true,
+            muted: false,
+            controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen']
+        });
+
+        // CHAT DE YOUTUBE
+        const videoId = "Hot4ZU7QJn8";
+        const domain = location.hostname || "localhost";
+        document.getElementById('chat-iframe').src = `https://www.youtube.com/live_chat?v=${videoId}&embed_domain=${domain}&dark_theme=1`;
+
+        // =========================================================
+        // 🚀 MOTOR DE CONTENIDO DINÁMICO (API Wikipedia + Trivia)
+        // =========================================================
+
+        const musicFacts = [
+            "El audio digital estándar (CD) usa una frecuencia de 44.1 kHz porque matemáticamente cubre el rango auditivo humano.",
+            "La icónica caja de ritmos Roland TR-808 fue un fracaso en ventas al lanzarse, pero hoy define el sonido moderno.",
+            "El primer archivo MP3 de la historia fue la canción 'Tom's Diner' de Suzanne Vega.",
+            "Los vinilos están superando a los CDs en ventas a nivel mundial por primera vez desde 1987.",
+            "Un tempo de 128 BPM (muy común en música House) sincroniza naturalmente con el latido del corazón acelerado."
+        ];
+
+        async function fetchDynamicContent() {
+            const titleEl = document.getElementById("trivia-title");
+            const textEl = document.getElementById("trivia-text");
+
+            // Animación de salida
+            textEl.style.opacity = 0;
+
+            setTimeout(async () => {
+                // Elegir aleatoriamente entre Historia (Wikipedia) o Curiosidad
+                const isHistory = Math.random() > 0.5;
+
+                if (isHistory) {
+                    try {
+                        // Obtener fecha actual para consultar API
+                        const date = new Date();
+                        const month = String(date.getMonth() + 1).padStart(2, '0');
+                        const day = String(date.getDate()).padStart(2, '0');
+
+                        // Consumo real de la API de Wikipedia
+                        const res = await fetch(`https://es.wikipedia.org/api/rest_v1/feed/onthisday/events/${month}/${day}`);
+                        const data = await res.json();
+
+                        // Extraer un evento aleatorio de los últimos 15
+                        const event = data.events[Math.floor(Math.random() * Math.min(15, data.events.length))];
+
+                        titleEl.innerText = "🏛️ Un Día Como Hoy";
+                        textEl.innerText = `En el año ${event.year}: ${event.text}`;
+                    } catch (e) {
+                        // Fallback si la API falla
+                        titleEl.innerText = "🎧 Dato Premium";
+                        textEl.innerText = musicFacts[Math.floor(Math.random() * musicFacts.length)];
+                    }
+                } else {
+                    titleEl.innerText = "💡 ¿Sabías Que...?";
+                    textEl.innerText = musicFacts[Math.floor(Math.random() * musicFacts.length)];
+                }
+
+                // Animación de entrada
+                textEl.style.opacity = 1;
+            }, 300);
         }
 
-        // =======================
-        // 🔥 OVERLAY
-        // =======================
-
-        function showAd() {
+        // =========================================================
+        // LÓGICA DEL OVERLAY DE PUBLICIDAD
+        // =========================================================
+        function triggerOverlay() {
             const overlay = document.getElementById("ad-overlay");
             const btn = document.getElementById("skip-btn");
             const progress = document.getElementById("ad-progress");
 
+            fetchDynamicContent(); // Cargar datos al instante
             overlay.classList.remove("hidden");
-            loadContent();
 
-            let time = 7;
-            const total = 7;
+            let totalTime = 10;
+            let timeLeft = totalTime;
+
+            btn.disabled = true;
+            btn.classList.add("opacity-50", "cursor-not-allowed", "text-muted");
+            btn.classList.remove("btn-secondary", "text-white");
 
             const interval = setInterval(() => {
-                time--;
-                btn.innerText = time > 0 ? `OMITIR EN ${time}` : "OMITIR";
-                progress.style.width = ((total - time) / total * 100) + "%";
+                timeLeft--;
+                progress.style.width = ((totalTime - timeLeft) / totalTime * 100) + "%";
 
-                if (time <= 0) {
+                if (timeLeft > 0) {
+                    btn.innerText = `Stream en ${timeLeft}s...`;
+                } else {
                     clearInterval(interval);
-                    btn.onclick = () => overlay.classList.add("hidden");
+                    btn.innerText = "Ir a la Transmisión";
+                    btn.disabled = false;
+
+                    // Estilizar botón cuando está listo
+                    btn.classList.remove("opacity-50", "cursor-not-allowed", "text-muted");
+                    btn.classList.add("btn-secondary", "text-white", "rounded-lg");
+
+                    btn.onclick = () => {
+                        overlay.classList.add("hidden");
+                        progress.style.width = "0%";
+                    };
                 }
             }, 1000);
         }
 
-        // TIMING
-        setTimeout(showAd, 4000);
-        setInterval(showAd, 70000);
+        // Ejecución inicial y recurrente (cada 5 min)
+        setTimeout(triggerOverlay, 3000);
+        setInterval(triggerOverlay, 300000);
 
-        // REFRESH ADS
+        // REFRESCO PASIVO DE BANNERS (Máxima monetización sin molestar)
         setInterval(() => {
             document.querySelectorAll("iframe").forEach(el => {
                 if (el.src.includes("highperformanceformat")) {
-                    let src = el.src;
-                    el.src = "";
-                    el.src = src;
+                    let currentSrc = el.src;
+                    el.src = '';
+                    setTimeout(() => el.src = currentSrc, 150);
                 }
             });
-        }, 30000);
+        }, 45000);
 
     </script>
-
 </body>
 
 </html>
