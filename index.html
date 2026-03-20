@@ -1,297 +1,228 @@
 <!DOCTYPE html>
-<html lang="es" class="scroll-smooth">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="monetag" content="66533d9b0ca53aaadf43271e2c878506">
-    <title>STREAMING | TUGAMUSIC Records</title>
+    <title>TUGAMUSIC LIVE</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
 
-    <style>
-        :root {
-            --accent: #0070ff;
-            --accent-glow: rgba(0, 112, 255, 0.4);
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #030303;
-            color: #fff;
-            overflow-x: hidden;
-        }
-
-        .glass {
-            background: rgba(15, 15, 18, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-
-        .video-hero {
-            position: relative;
-            width: 100%;
-            background: #000;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 1);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        /* Plyr Custom */
-        .plyr {
-            height: 100% !important;
-            width: 100% !important;
-            --plyr-color-main: var(--accent);
-        }
-
-        /* Etiquetas de Publicidad */
-        .ad-label {
-            font-size: 9px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: #555;
-            margin-bottom: 8px;
-            display: block;
-            text-align: center;
-        }
-
-        /* Contenedores de Anuncios */
-        .ad-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 24px;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        /* Solución Scroll Chat */
-        .chat-container {
-            position: relative;
-        }
-
-        #chat-iframe {
-            pointer-events: none;
-            transition: pointer-events 0.2s;
-        }
-
-        .chat-active #chat-iframe {
-            pointer-events: auto;
-        }
-
-        .chat-overlay-hint {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
-            cursor: pointer;
-        }
-
-        .chat-active .chat-overlay-hint {
-            display: none;
-        }
-
-        .live-tag {
-            animation: pulse-border 2s infinite;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        @keyframes pulse-border {
-
-            0%,
-            100% {
-                border-color: rgba(239, 68, 68, 0.3);
-            }
-
-            50% {
-                border-color: rgba(239, 68, 68, 1);
-            }
-        }
-
-        ::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: #222;
-            border-radius: 10px;
-        }
-    </style>
 </head>
 
-<body class="antialiased pb-32">
+<body class="bg-[#050505] text-white font-sans">
 
-    <div id="ad-interstitial" class="fixed inset-0 z-[9999] flex items-center justify-center bg-black">
-        <div class="p-8 text-center max-w-lg">
-            <span class="ad-label mb-4">Sponsor Message</span>
-            <div class="mb-8 rounded-xl overflow-hidden border border-white/10 shadow-2xl">
-                <script type="text/javascript">
-                    atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 250, 'width': 300, 'params': {} };
+    <!-- 🔥 OVERLAY PRO -->
+    <div id="ad-overlay" class="hidden fixed inset-0 z-[9999] bg-black/95 flex flex-col">
+
+        <!-- PROGRESS -->
+        <div class="h-[3px] bg-white/10">
+            <div id="ad-progress" class="h-full bg-blue-500 w-0"></div>
+        </div>
+
+        <div class="flex-1 flex flex-col items-center justify-center gap-6 px-4">
+
+            <!-- ANUNCIO -->
+            <div class="bg-black rounded-xl p-2 shadow-lg">
+                <script>
+                    var atOptions_overlay = {
+                        key: 'abd4e21740531b9926241f7933675a40',
+                        format: 'iframe',
+                        height: 250,
+                        width: 300
+                    };
                 </script>
-                <script src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
+                <script src="//www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
             </div>
-            <button onclick="startStream()" id="interstitial-btn"
-                class="w-full px-8 py-4 bg-zinc-900 text-zinc-500 rounded-2xl text-[10px] font-black tracking-[0.2em] border border-white/5 transition-all cursor-not-allowed">
-                ESPERANDO ANUNCIO...
+
+            <!-- CONTENIDO -->
+            <div id="dynamic-content"
+                class="bg-white/5 border border-white/10 rounded-xl p-4 max-w-md text-center cursor-pointer hover:bg-white/10 transition-all duration-300">
+
+                <p class="text-xs text-gray-400">Cargando contenido...</p>
+            </div>
+
+            <!-- SKIP -->
+            <button id="skip-btn" class="text-xs px-4 py-2 bg-white/10 rounded-lg hover:bg-white/20 transition">
+                OMITIR EN 7
             </button>
+
         </div>
     </div>
 
-    <header class="sticky top-0 z-[100] glass px-6 py-4 border-b border-white/5">
-        <div class="max-w-[1920px] mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <div
-                    class="w-10 h-10 bg-gradient-to-tr from-blue-600 to-indigo-900 rounded-xl flex items-center justify-center font-black shadow-lg shadow-blue-500/20 text-white">
-                    T</div>
-                <h1 class="text-xl font-black tracking-tighter uppercase text-white">TugaMusic <span
-                        class="text-zinc-500 font-light italic">Records</span></h1>
-            </div>
-            <div class="live-tag bg-red-500/10 px-4 py-1.5 rounded-full flex items-center gap-2">
-                <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
-                <span class="text-[9px] font-black tracking-[0.2em] text-white uppercase text-white">Live</span>
-            </div>
-        </div>
+    <!-- HEADER -->
+    <header class="flex justify-between items-center px-4 py-3 bg-black/70 backdrop-blur border-b border-white/5">
+        <h1 class="font-bold text-sm tracking-wide">TUGAMUSIC LIVE</h1>
+        <span class="text-xs text-red-500">● EN VIVO</span>
     </header>
 
-    <main class="max-w-[1920px] mx-auto p-4 md:p-10">
+    <!-- MAIN -->
+    <main class="max-w-4xl mx-auto px-3 py-4 space-y-4">
 
-        <div class="flex flex-col xl:flex-row gap-12">
-
-            <div class="flex-1 space-y-10">
-                <div class="video-hero group" id="video-container">
-                    <div id="player" class="w-full h-full" data-plyr-provider="youtube"
-                        data-plyr-embed-id="Hot4ZU7QJn8"></div>
+        <!-- VIDEO -->
+        <div class="rounded-xl overflow-hidden bg-black">
+            <div class="aspect-video">
+                <div id="player" class="w-full h-full" data-plyr-provider="youtube" data-plyr-embed-id="Hot4ZU7QJn8">
                 </div>
-
-                <div class="flex flex-col lg:flex-row justify-between items-start gap-8 px-2">
-                    <div class="space-y-4">
-                        <h2
-                            class="text-4xl md:text-6xl font-black tracking-tight text-white leading-none italic uppercase">
-                            Nu-Disco vs House</h2>
-                        <div class="flex items-center gap-4">
-                            <div
-                                class="w-14 h-14 rounded-2xl bg-zinc-900 border border-white/10 flex items-center justify-center text-xs font-bold text-white shadow-xl">
-                                TM</div>
-                            <div>
-                                <p class="text-sm font-black text-white uppercase tracking-widest">TugaMusic Official
-                                </p>
-                                <p class="text-xs text-blue-500 font-bold uppercase tracking-widest">Tugajr Live Session
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <a href="https://www.youtube.com/@tugamusicrecords" target="_blank"
-                        class="px-10 py-5 bg-white text-black rounded-2xl font-black text-[10px] tracking-[0.2em] hover:bg-blue-600 hover:text-white transition-all shadow-xl">SUBSCRIBE</a>
-                </div>
-
-                <div class="ad-card w-full">
-                    <span class="ad-label">Sponsor Portfolio</span>
-                    <div class="w-full flex justify-center">
-                        <script type="text/javascript">
-                            atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
-                        </script>
-                        <script
-                            src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
-                    </div>
-                </div>
-            </div>
-
-            <div class="w-full xl:w-[450px] flex flex-col gap-6">
-
-                <div id="chat-parent"
-                    class="glass rounded-[40px] overflow-hidden flex flex-col h-[550px] shadow-3xl sticky top-28 chat-container">
-                    <div class="chat-overlay-hint group" onclick="activateChat()">
-                        <div
-                            class="bg-blue-600 text-white text-[9px] font-black px-6 py-3 rounded-full opacity-0 group-hover:opacity-100 transition-all uppercase tracking-widest">
-                            Click para escribir</div>
-                    </div>
-                    <div class="p-6 border-b border-white/5 flex items-center justify-between">
-                        <span class="text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500">Live Chat</span>
-                        <button onclick="deactivateChat()"
-                            class="text-[9px] text-zinc-700 hover:text-white transition-colors">BLOQUEAR SCROLL</button>
-                    </div>
-                    <div class="flex-1 bg-black/50">
-                        <iframe id="chat-iframe" src="" class="w-full h-full" allowfullscreen></iframe>
-                    </div>
-                </div>
-
-                <div class="ad-card w-full sticky top-[710px]">
-                    <span class="ad-label">Promoted Content</span>
-                    <div class="flex justify-center rounded-xl overflow-hidden bg-black/20 p-2">
-                        <script type="text/javascript">
-                            atOptions = { 'key': '155282ebb193f0f3cfce7f418a22d357', 'format': 'iframe', 'height': 300, 'width': 160, 'params': {} };
-                        </script>
-                        <script
-                            src="https://www.highperformanceformat.com/155282ebb193f0f3cfce7f418a22d357/invoke.js"></script>
-                    </div>
-                </div>
-
             </div>
         </div>
+
+        <!-- INFO -->
+        <div class="px-1">
+            <h2 class="text-base font-semibold">Nu-Disco vs House</h2>
+            <p class="text-xs text-gray-400">Live DJ Set</p>
+        </div>
+
+        <!-- CHAT -->
+        <div class="h-[380px] md:h-[500px] rounded-xl overflow-hidden border border-white/10">
+            <iframe id="chat-iframe" class="w-full h-full"></iframe>
+        </div>
+
+        <!-- BANNER -->
+        <div class="flex justify-center">
+            <script>
+                var atOptions_1 = {
+                    key: '155282ebb193f0f3cfce7f418a22d357',
+                    format: 'iframe',
+                    height: 90,
+                    width: 728
+                };
+            </script>
+            <script src="//www.highperformanceformat.com/155282ebb193f0f3cfce7f418a22d357/invoke.js"></script>
+        </div>
+
     </main>
 
-    <div
-        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[50] glass p-2 rounded-2xl shadow-2xl border border-white/10 flex flex-col items-center">
-        <span class="text-[7px] font-black text-zinc-600 mb-1 uppercase tracking-tighter">Advertisement</span>
-        <div class="scale-75 md:scale-90 origin-bottom">
-            <script type="text/javascript">
-                atOptions = { 'key': 'abd4e21740531b9926241f7933675a40', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
-            </script>
-            <script src="https://www.highperformanceformat.com/abd4e21740531b9926241f7933675a40/invoke.js"></script>
-        </div>
+    <!-- FLOAT -->
+    <div class="fixed bottom-2 left-1/2 -translate-x-1/2">
+        <script>
+            var atOptions_2 = {
+                key: 'a9007e74934380b8f4e3f0f4e3213262',
+                format: 'iframe',
+                height: 60,
+                width: 468
+            };
+        </script>
+        <script src="//www.highperformanceformat.com/a9007e74934380b8f4e3f0f4e3213262/invoke.js"></script>
     </div>
 
+    <!-- LIBS -->
     <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+
+    <!-- POP -->
+    <script src="https://pl28947868.profitablecpmratenetwork.com/9b/9d/97/9b9d9741195af037933a25e640c30102.js"></script>
+
+    <!-- SOCIAL -->
+    <script src="https://pl28947874.profitablecpmratenetwork.com/6e/ed/f9/6eedf9ea550cd546c8c210aafa3c5f87.js"></script>
+
+    <!-- NATIVE -->
+    <script async
+        src="https://pl28947871.profitablecpmratenetwork.com/dd78d8a9eddd3fe0003951375e67c19c/invoke.js"></script>
+
     <script>
-        const CONFIG = {
-            youtubeId: "Hot4ZU7QJn8",
-            dominio: window.location.hostname || "tugamusic.github.io"
-        };
 
-        // Interstitial
-        let adTimer = 8;
-        const btn = document.querySelector("#ad-interstitial button");
-        const interval = setInterval(() => {
-            adTimer--;
-            if (adTimer <= 0) {
-                clearInterval(interval);
-                btn.classList.replace("bg-zinc-900", "bg-blue-600");
-                btn.classList.replace("text-zinc-500", "text-white");
-                btn.classList.remove("cursor-not-allowed");
-                btn.innerText = "CONTINUAR AL STREAM";
+        // PLAYER
+        new Plyr('#player', { autoplay: true });
+
+        // CHAT
+        document.getElementById('chat-iframe').src =
+            `https://www.youtube.com/live_chat?v=Hot4ZU7QJn8&embed_domain=${location.hostname}&dark_theme=1`;
+
+        // =======================
+        // 🧠 CONTENIDO DINÁMICO
+        // =======================
+
+        const smartlink = "https://www.profitablecpmratenetwork.com/vmp3cgn8?key=46bb8d81acf6d6906ee10c6d34587506";
+
+        const tips = [
+            "🎧 Tip: Usa EQ para evitar saturación",
+            "🔥 Menos capas = mejor mezcla",
+            "📀 Un buen drop necesita silencio antes",
+            "🚀 Próximamente en TUGAONE contenido exclusivo",
+            "🎛️ Mezclar no es volumen, es balance"
+        ];
+
+        const artists = ["Daft Punk", "Avicii", "Calvin Harris", "David Guetta"];
+
+        async function loadContent() {
+            const el = document.getElementById("dynamic-content");
+            const random = Math.random();
+
+            if (random < 0.6) {
+                const artist = artists[Math.floor(Math.random() * artists.length)];
+
+                try {
+                    const res = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${artist}`);
+                    const data = await res.json();
+
+                    el.innerHTML = `
+                <p class="font-bold text-sm mb-1">${data.title}</p>
+                <p class="text-xs text-gray-400">${data.extract.substring(0, 120)}...</p>
+                <p class="text-[10px] text-blue-400 mt-2">Toca para explorar</p>
+            `;
+                } catch {
+                    fallback(el);
+                }
             } else {
-                btn.innerText = "SKIP IN " + adTimer;
+                fallback(el);
             }
-        }, 1000);
 
-        function startStream() {
-            if (adTimer > 0) return;
-            document.getElementById("ad-interstitial").style.display = "none";
-            initApp();
+            el.onclick = () => window.open(smartlink, "_blank");
         }
 
-        // Scroll
-        function activateChat() { document.getElementById('chat-parent').classList.add('chat-active'); }
-        function deactivateChat() { document.getElementById('chat-parent').classList.remove('chat-active'); }
-        document.getElementById('chat-parent').addEventListener('mouseleave', deactivateChat);
+        function fallback(el) {
+            const tip = tips[Math.floor(Math.random() * tips.length)];
+            el.innerHTML = `
+        <p class="text-sm">${tip}</p>
+        <p class="text-[10px] text-blue-400 mt-2">Ver más</p>
+    `;
+        }
 
-        function initApp() {
-            document.getElementById('chat-iframe').src = `https://www.youtube.com/live_chat?v=${CONFIG.youtubeId}&embed_domain=${CONFIG.dominio}&dark_theme=1`;
-            new Plyr('#player', {
-                autoplay: true,
-                controls: ['play-large', 'play', 'progress', 'current-time', 'mute', 'volume', 'fullscreen'],
-                youtube: { noCookie: true, rel: 0, showinfo: 0, iv_load_policy: 3, modestbranding: 1 }
+        // =======================
+        // 🔥 OVERLAY
+        // =======================
+
+        function showAd() {
+            const overlay = document.getElementById("ad-overlay");
+            const btn = document.getElementById("skip-btn");
+            const progress = document.getElementById("ad-progress");
+
+            overlay.classList.remove("hidden");
+            loadContent();
+
+            let time = 7;
+            const total = 7;
+
+            const interval = setInterval(() => {
+                time--;
+                btn.innerText = time > 0 ? `OMITIR EN ${time}` : "OMITIR";
+                progress.style.width = ((total - time) / total * 100) + "%";
+
+                if (time <= 0) {
+                    clearInterval(interval);
+                    btn.onclick = () => overlay.classList.add("hidden");
+                }
+            }, 1000);
+        }
+
+        // TIMING
+        setTimeout(showAd, 4000);
+        setInterval(showAd, 70000);
+
+        // REFRESH ADS
+        setInterval(() => {
+            document.querySelectorAll("iframe").forEach(el => {
+                if (el.src.includes("highperformanceformat")) {
+                    let src = el.src;
+                    el.src = "";
+                    el.src = src;
+                }
             });
-        }
+        }, 30000);
+
     </script>
+
 </body>
 
 </html>
